@@ -1,0 +1,66 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Button Content="Salveaza lemn" HorizontalAlignment="Left" Margin="11,246,0,0" VerticalAlignment="Top" Width="220" Height="74"/>
+        <TextBox x:Name="lungimeTB" HorizontalAlignment="Left" Height="40" Margin="111,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
+        <Label Content="Lungime" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Label Content="Grosime" HorizontalAlignment="Left" Margin="5,63,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Label Content="Latime" HorizontalAlignment="Left" Margin="5,111,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="111,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="111,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
+        <Button Content="A" HorizontalAlignment="Left" Margin="11,182,0,0" VerticalAlignment="Top" Width="103" Height="45" FontSize="32"/>
+        <Button Content="B" HorizontalAlignment="Left" Margin="119,182,0,0" VerticalAlignment="Top" Width="112" Height="45" FontSize="32"/>
+        <Button Content="PLC Conn"  HorizontalAlignment="Left" Margin="468,42,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Click="PLC_Connect_click"/>
+        <Button Content="PLC DConn"  HorizontalAlignment="Left" Margin="468,124,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Click="PLC_Disconnect_click"/>
+        <Button Content="Reset" HorizontalAlignment="Left" Margin="468,83,0,0" VerticalAlignment="Top" Width="136" Height="36" Click="Reset_Click"/>
+        <Button Content="Get Len" HorizontalAlignment="Left" Margin="609,40,0,0" VerticalAlignment="Top" Width="75" Click="getLen_click"/>
+        <Button Content="Manual" HorizontalAlignment="Left" Margin="689,43,0,0" VerticalAlignment="Top" Width="75" Click="manual_click"/>
+        <Button Content="Auto" HorizontalAlignment="Left" Margin="689,67,0,0" VerticalAlignment="Top" Width="75" Click="auto_click"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="689,91,0,0" VerticalAlignment="Top" Width="75" Click="start_handler"/>
+        <Button Content="Next planck" HorizontalAlignment="Left" Margin="689,116,0,0" VerticalAlignment="Top" Width="75" Click="nextPlanck_click"/>
+        <Button x:Name="sysBackStart" Content="Button" HorizontalAlignment="Left" Margin="609,128,0,0" VerticalAlignment="Top" Width="75" Click="sysBackStart_Click"/>
+        <Label x:Name="statusConnected" Content="Connected" HorizontalAlignment="Left" Margin="0,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="61" Padding="0"/>
+        <Label x:Name="statusAutoManual" Content="Manual" HorizontalAlignment="Left" Margin="61,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="44" Padding="0"/>
+        <Label x:Name="statusOk" Content="OK" HorizontalAlignment="Left" Margin="105,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="44" Padding="0"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="10,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="136,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="262,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="388,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="514,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="186" Margin="640,363,0,0" Stroke="Black" VerticalAlignment="Top" Width="121"/>
+        <Label x:Name="pallet1bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="11,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="11,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet1Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="61,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="11,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet1Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="61,415,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="pallet2bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="137,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="137,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet2Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="187,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="137,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet2Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="187,415,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="pallet3bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="263,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="263,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet3Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="313,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="263,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet3Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="313,415,0,0" VerticalAlignment="Top" Width="63"/>
+        <Button x:Name="demoStart" Content="Start Test" HorizontalAlignment="Left" Margin="492,227,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label x:Name="pallet4bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="391,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="391,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet4Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="441,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="391,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet4Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="441,415,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="pallet5bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="514,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="514,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet5Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="564,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="514,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet5Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="564,415,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="pallet6bfId" Content="xyzt/2015" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="642,363,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="642,389,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet6Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="692,389,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Plancks:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="642,415,0,0" VerticalAlignment="Top" Width="54"/>
+        <Label x:Name="pallet6Pcs" Content="0 pcs" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="692,415,0,0" VerticalAlignment="Top" Width="63"/>
+
+    </Grid>
+</Window>
