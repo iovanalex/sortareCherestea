@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfApplication1
 {
-    class Planck
+    public class Planck
     {
         String planckGuid;
 

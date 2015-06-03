@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppConfigStore.cs" />
+    <Compile Include="MainFormInputException.cs" />
     <Compile Include="Pallet.cs" />
     <Compile Include="IniFileIO.cs" />
     <Compile Include="PalletManager.cs" />

@@ -10,9 +10,11 @@ namespace WpfApplication1
     class PalletManager
     {
         ArrayList pallets = new ArrayList();
+        MainWindow mainWin;
 
-        public PalletManager()
+        public PalletManager(MainWindow w)
         {
+            mainWin = w;
             Pallet p1 = new Pallet("1/2015", "stejar", 100, 140, 20, 40, 20, 40, "pallet1");
             Pallet p2 = new Pallet("2/2015", "stejar", 200, 270, 20, 40, 20, 40, "pallet2");
             Pallet p3 = new Pallet("3/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet3");
@@ -34,6 +36,7 @@ namespace WpfApplication1
                 if (pallet.matchPlanck(p))
                 {
                     pallet.addPlanck(p);
+                    //mainWin.updatePallets(pallet);
                     return pallet;
                 }
             }

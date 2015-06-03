@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace WpfApplication1
 {
-    class Pallet
+    public class Pallet
     {
         String palletGuid;
         ArrayList plancks = new ArrayList();
@@ -58,14 +58,14 @@ namespace WpfApplication1
             return plancks.Count;
         }
 
-        public uint getVolume()
+        public double getVolume()
         {
             uint vol=0;
             foreach (Planck p in plancks)
             {
                 vol += p.getVolumeCCm();
             }
-            return vol;
+            return vol/1000000.0;
         }
 
         public String getFormName()

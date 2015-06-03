@@ -3,15 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="600" Width="800">
     <Grid>
-        <Button Content="Salveaza lemn" HorizontalAlignment="Left" Margin="11,246,0,0" VerticalAlignment="Top" Width="220" Height="74"/>
+        <Button x:Name="btSavePlanck" Content="Salveaza lemn" HorizontalAlignment="Left" Margin="11,246,0,0" VerticalAlignment="Top" Width="220" Height="74" Click="btSavePlanck_Click"/>
         <TextBox x:Name="lungimeTB" HorizontalAlignment="Left" Height="40" Margin="111,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
         <Label Content="Lungime" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label Content="Grosime" HorizontalAlignment="Left" Margin="5,63,0,0" VerticalAlignment="Top" FontSize="24"/>
         <Label Content="Latime" HorizontalAlignment="Left" Margin="5,111,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <TextBox HorizontalAlignment="Left" Height="40" Margin="111,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
-        <TextBox HorizontalAlignment="Left" Height="40" Margin="111,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
-        <Button Content="A" HorizontalAlignment="Left" Margin="11,182,0,0" VerticalAlignment="Top" Width="103" Height="45" FontSize="32"/>
-        <Button Content="B" HorizontalAlignment="Left" Margin="119,182,0,0" VerticalAlignment="Top" Width="112" Height="45" FontSize="32"/>
+        <TextBox x:Name="grosimeTB" HorizontalAlignment="Left" Height="40" Margin="111,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
+        <TextBox x:Name="latimeTB" HorizontalAlignment="Left" Height="40" Margin="111,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24"/>
+        <Button x:Name="btClassA" Content="A" HorizontalAlignment="Left" Margin="11,182,0,0" VerticalAlignment="Top" Width="103" Height="45" FontSize="32" Click="btClassA_Click"/>
+        <Button x:Name="btClassB" Content="B" HorizontalAlignment="Left" Margin="119,182,0,0" VerticalAlignment="Top" Width="112" Height="45" FontSize="32"/>
         <Button Content="PLC Conn"  HorizontalAlignment="Left" Margin="468,42,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Click="PLC_Connect_click"/>
         <Button Content="PLC DConn"  HorizontalAlignment="Left" Margin="468,124,0,0" VerticalAlignment="Top" Width="136" FontSize="24" Click="PLC_Disconnect_click"/>
         <Button Content="Reset" HorizontalAlignment="Left" Margin="468,83,0,0" VerticalAlignment="Top" Width="136" Height="36" Click="Reset_Click"/>

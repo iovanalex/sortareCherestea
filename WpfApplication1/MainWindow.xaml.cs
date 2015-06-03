@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.ComponentModel;
 using System.Collections;
+//using System.Windows.Media.Brush;
 
 namespace WpfApplication1
 {
@@ -24,7 +25,7 @@ namespace WpfApplication1
     public partial class MainWindow : Window
     {
         BackgroundWorker bw = new BackgroundWorker();
-        PalletManager palletManager = new PalletManager();
+        PalletManager palletManager;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace WpfApplication1
             bw.DoWork += new DoWorkEventHandler(do_work);
             bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
             bw.DoWork += new DoWorkEventHandler(do_work);
+            palletManager = new PalletManager(this);
         }
         
         private void PLC_Disconnect_click(object sender, RoutedEventArgs e)
@@ -117,17 +119,59 @@ namespace WpfApplication1
             ArrayList pallets = palletManager.getPallets();
             foreach (Pallet p in pallets)
             {
-                String formPalletName = p.getFormName();
-                Label lbPcs = (Label)FindName(formPalletName + "Pcs");
-                lbPcs.Content = p.getPlanckCount();
-
-                Label lbName = (Label)FindName(formPalletName + "bfId");
-                lbName.Content = p.bfPalletId;
-
-                Label lbVolume = (Label)FindName(formPalletName + "Volume");
-                lbVolume.Content = p.getVolume() ;
+                updatePallets(p);
             }
         }
+
+        private void btSavePlanck_Click(object sender, RoutedEventArgs e)
+        {
+            
+           // if (lungimeTB.Text != "")
+           // {
+                UInt16 measuredLength = UInt16.Parse(lungimeTB.Text);
+           // }
+           // if (latimeTB.Text != "")
+           // {
+                UInt16 measuredWidth = UInt16.Parse(latimeTB.Text);
+           // }
+           // if (latimeTB.Text != "")
+           // {
+                UInt16 measuredThickness = UInt16.Parse(grosimeTB.Text);
+           // }
+            
+
+            Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, "A");
+            Pallet selectedPallet=palletManager.addPlanck(p);
+            if (selectedPallet != null)
+            {
+                updatePallets(selectedPallet);
+            }
+
+            lungimeTB.Text = "";
+            latimeTB.Text = "";
+            grosimeTB.Text = "";
+
+        }
+
+        private void btClassA_Click(object sender, RoutedEventArgs e)
+        {
+           // btClassA.Background = new System.Windows.Media.SolidColorBrush(System.Windows.SystemColors);
+        }
+
+        private void updatePallets(Pallet p)
+        {
+            String formPalletName = p.getFormName();
+            Label lbPcs = (Label)FindName(formPalletName + "Pcs");
+            lbPcs.Content = p.getPlanckCount();
+
+            Label lbName = (Label)FindName(formPalletName + "bfId");
+            lbName.Content = p.bfPalletId;
+
+            Label lbVolume = (Label)FindName(formPalletName + "Volume");
+            lbVolume.Content = p.getVolume();
+        }
+
+
 
     }
 }
