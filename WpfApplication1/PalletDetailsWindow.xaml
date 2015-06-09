@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfApplication1.PalletDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PalletDetailsWindow" Height="309.95" Width="566.667" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DataGrid HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="131" Width="415" IsSynchronizedWithCurrentItem="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Pallet ID:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bfPalletId" HorizontalAlignment="Left" Height="23" Margin="66,7,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Volume:" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bfPalletVolume" HorizontalAlignment="Left" Height="23" Margin="66,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Pl. count:" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="bfPlancks" HorizontalAlignment="Left" Height="23" Margin="66,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+    </Grid>
+</Window>

@@ -15,18 +15,18 @@ namespace WpfApplication1
         public PalletManager(MainWindow w)
         {
             mainWin = w;
-            Pallet p1 = new Pallet("1/2015", "stejar", 100, 140, 20, 40, 20, 40, "pallet1");
-            Pallet p2 = new Pallet("2/2015", "stejar", 200, 270, 20, 40, 20, 40, "pallet2");
-            Pallet p3 = new Pallet("3/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet3");
-            Pallet p4 = new Pallet("4/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet4");
-            Pallet p5 = new Pallet("5/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet5");
-            Pallet p6 = new Pallet("6/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet6");
+            Pallet p1 = new Pallet("1/2015", "stejar", 150, 190, 20, 40, 20, 40, "pallet1");
+            Pallet p2 = new Pallet("2/2015", "stejar", 195, 210, 20, 40, 20, 40, "pallet2");
+            Pallet p3 = new Pallet("3/2015", "stejar", 220, 350, 20, 40, 20, 40, "pallet3");
+            //Pallet p4 = new Pallet("4/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet4");
+            //Pallet p5 = new Pallet("5/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet5");
+            //Pallet p6 = new Pallet("6/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet6");
             pallets.Add(p1);
             pallets.Add(p2);
             pallets.Add(p3);
-            pallets.Add(p4);
-            pallets.Add(p5);
-            pallets.Add(p6);
+            //pallets.Add(p4);
+            //pallets.Add(p5);
+            //pallets.Add(p6);
     
         }
         public Pallet addPlanck(Planck p)
@@ -46,6 +46,18 @@ namespace WpfApplication1
         public ArrayList getPallets()
         {
             return pallets;
+        }
+
+        public Pallet getPalletByFromName(String panelName)
+        {
+            foreach (Pallet p in pallets)
+            {
+                if (p.getFormName() == panelName)
+                {
+                    return p;
+                }
+            }
+            return null;
         }
     }
 }

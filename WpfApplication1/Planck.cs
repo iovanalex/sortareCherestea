@@ -12,10 +12,10 @@ namespace WpfApplication1
 
         DateTime passTime;
 
-        public uint bfActualLength { get; private set; }
+        public uint bfActualLength { get; private set; } //in cm
         uint bfLengthClass;
-        public uint bfActualWidth { get; private set; }
-        public uint bfActualThickness { get; private set; }
+        public uint bfActualWidth { get; private set; } //in cm
+        public uint bfActualThickness { get; private set; } //in mm
         uint bfThicknessClass;
         public String bfPlanckQalClass { get; private set; }
 
@@ -29,9 +29,9 @@ namespace WpfApplication1
             bfPlanckQalClass = qalClass;
             Console.Out.WriteLine("Create planck with " + planckGuid);
         }
-        public uint getVolumeCCm()
+        public double getVolumeCCm()
         {
-            return bfActualThickness * bfActualWidth * bfActualLength;
+            return (bfActualThickness/10.0) * bfActualWidth * bfActualLength;
         }
     }
 }

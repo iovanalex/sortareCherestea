@@ -401,6 +401,17 @@ namespace WpfApplication1
             return lung;
         }
 
+        public static UInt16 getGrosime()
+        {
+            byte[] b0 = new byte[2];
+            Client.DBRead(100, 2, 2, b0);
+            UInt16 grosime = b0[0];
+            grosime = (ushort)(grosime << 8);
+            grosime = (ushort)(grosime | b0[1]);
+
+            return grosime;
+        }
+
         public static void POS_Connect(){
                 byte[] b18=new byte[5];
                 Client.DBRead(100, 18,1,b18);
@@ -413,12 +424,16 @@ namespace WpfApplication1
             byte[] b18 = new byte[5];
             
             Client.DBRead(100, 18, 1, b18);
-            Console.Out.WriteLine("Reset inainte" + b18[0]);
+        //    Console.Out.WriteLine("Reset inainte" + b18[0]);
             //b18[0] = (byte)(b18[0] | 0x); 
             b18[0] = (byte)(b18[0] | 0x01);
-            
             Client.DBWrite(100, 18, 1, b18);
-            Console.Out.WriteLine("Reset dupa" + b18[0]);
+            Thread.Sleep(50);
+            Client.DBRead(100, 18, 1, b18);
+            b18[0] = (byte)(b18[0] & (~0x01));
+            Client.DBWrite(100, 18, 1, b18);
+            POS_Manual();
+            Console.Out.WriteLine("Reset efectuat. Trecut in manual");
         }
 
 
@@ -437,9 +452,13 @@ namespace WpfApplication1
         {
             byte[] b18 = new byte[5];
             Client.DBRead(100, 18, 1, b18);
-            Console.Out.WriteLine("Byte 18 inainte " + b18[0]);
             b18[0] = (byte)(b18[0] | (0x20));
-            Console.Out.WriteLine("Byte 18 dupa " + b18[0]);
+            Client.DBWrite(100, 18, 1, b18);
+
+            Thread.Sleep(50);
+
+            Client.DBRead(100, 18, 1, b18);
+            b18[0] = (byte)(b18[0] & (~0x20));
             Client.DBWrite(100, 18, 1, b18);
         }
 
@@ -469,9 +488,13 @@ namespace WpfApplication1
         {
             byte[] b18 = new byte[5];
             Client.DBRead(100, 18, 1, b18);
-            Console.Out.WriteLine("Byte NP 18 inainte " + b18[0]);
             b18[0] = (byte)(b18[0] | (0x40));
-            Console.Out.WriteLine("Byte NP 18 dupa " + b18[0]);
+            Client.DBWrite(100, 18, 1, b18);
+
+            Thread.Sleep(50);
+
+            Client.DBRead(100, 18, 1, b18);
+            b18[0] = (byte)(b18[0] & (~0x40));
             Client.DBWrite(100, 18, 1, b18);
         }
 
@@ -569,6 +592,22 @@ namespace WpfApplication1
                 Client.Disconnect();
             }
             // Summary();
+        }
+
+        public UInt16 readGrosime(String ip)
+        {
+            UInt16 resultat = 0;
+            int Rack = 0, Slot = 0; // default for S71200
+            Client = new S7Client();
+            Completion = new S7Client.S7CliCompletion(CompletionProc);
+            Client.SetAsCallBack(Completion, IntPtr.Zero);
+            if (PlcConnect(ip, Rack, Slot))
+            {
+                resultat = getGrosime();
+                Client.Disconnect();
+            }
+            // Summary();
+            return resultat;
         }
 
         public UInt16 readLungime(String ip)

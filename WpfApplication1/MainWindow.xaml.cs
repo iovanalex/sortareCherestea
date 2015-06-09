@@ -26,6 +26,7 @@ namespace WpfApplication1
     {
         BackgroundWorker bw = new BackgroundWorker();
         PalletManager palletManager;
+        Control focusedControl;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,79 +35,50 @@ namespace WpfApplication1
             bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
             bw.DoWork += new DoWorkEventHandler(do_work);
             palletManager = new PalletManager(this);
+            focusedControl = (Control)FindName("latimeTB");
         }
         
-        private void PLC_Disconnect_click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Disconnect_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat disconnected");
-        }
-
-        private void PLC_Connect_click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat connected");
-        }
-
-        private void Reset_Click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat connected");
-
-        }
-
-        private void getLen_click(object sender, RoutedEventArgs e)
-        {
-           for (int i = 1; i <= 1000; i++) { 
-                UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
-                String leng=len.ToString();
-                lungimeTB.Text = leng;
-                Console.Out.WriteLine("Lungime citita " + leng);
-                Thread.Sleep(100);
-            }
-        }
-
-        private void manual_click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
-            Console.Out.WriteLine("Manual connected");
-        }
-
-        private void auto_click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
-            Console.Out.WriteLine("Auto sent");
-        }
-
-        private void start_handler(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
-            Console.Out.WriteLine("Start sent");
-        }
-
-        private void nextPlanck_click(object sender, RoutedEventArgs e)
-        {
-            PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
-            Console.Out.WriteLine("Next planck sent");
-
-        }
+      
 
         private void do_work(object sender, DoWorkEventArgs e)
         {
             Random rng = new Random();
+           // UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
 
             BackgroundWorker worker = sender as BackgroundWorker;
             while (true)
             {
                 worker.ReportProgress(rng.Next(160, 350));
+                
                 System.Threading.Thread.Sleep(500);
+
             }
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
+            //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
+            UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
+            UInt16 thick = PlcDb.Instance.readGrosime("192.168.0.10");
+            if (len > 0)
+            {
+                this.lungimeTB.Text = Convert.ToString(len);
+            }
+            else
+            {
+                this.lungimeTB.Text = "N/A";
+            }
+            if (thick > 0)
+            {
+                this.grosimeTB.Text = Convert.ToString(thick);
+            }
+            else
+            {
+                this.grosimeTB.Text = "N/A";
+            }
         }
+
+
         private void sysBackStart_Click(object sender, RoutedEventArgs e)
         {
            
@@ -125,38 +97,71 @@ namespace WpfApplication1
 
         private void btSavePlanck_Click(object sender, RoutedEventArgs e)
         {
+            UInt16 measuredLength=0, measuredWidth=0, measuredThickness=0;
+            String warnMsg = "";
+            String qalClass="";
             
-           // if (lungimeTB.Text != "")
-           // {
-                UInt16 measuredLength = UInt16.Parse(lungimeTB.Text);
-           // }
-           // if (latimeTB.Text != "")
-           // {
-                UInt16 measuredWidth = UInt16.Parse(latimeTB.Text);
-           // }
-           // if (latimeTB.Text != "")
-           // {
-                UInt16 measuredThickness = UInt16.Parse(grosimeTB.Text);
-           // }
-            
-
-            Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, "A");
-            Pallet selectedPallet=palletManager.addPlanck(p);
-            if (selectedPallet != null)
+            if ((lungimeTB.Text != "")&&(lungimeTB.Text!="N/A"))
             {
-                updatePallets(selectedPallet);
+                measuredLength = UInt16.Parse(lungimeTB.Text);
+            }
+            else {
+                warnMsg += "Atentie la lungime\n";
             }
 
-            lungimeTB.Text = "";
-            latimeTB.Text = "";
-            grosimeTB.Text = "";
+            if ((latimeTB.Text != "")&&(latimeTB.Text!="N/A"))
+            {
+                measuredWidth = UInt16.Parse(latimeTB.Text);
+            }
+            else{
+                warnMsg += "Atentie la latime\n";
+            }
 
+            if ((grosimeTB.Text != "")&&(grosimeTB.Text!="N/A"))
+            {
+                measuredThickness = UInt16.Parse(grosimeTB.Text);
+            }
+            else{
+                warnMsg += "Atentie la grosime\n";
+            }
+            if (planckClass.Text!="")
+            {
+               qalClass=planckClass.Text;
+            }
+            else
+            {
+                warnMsg += "NU ati selectat clasa de calitate\n";
+            }
+
+            if (warnMsg != "")
+            {
+                new measurementWindow(warnMsg, lungimeTB, this).Show();
+            }
+            else
+            {
+                Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, qalClass);
+                Pallet selectedPallet = palletManager.addPlanck(p);
+                if (selectedPallet != null)
+                {
+                    updatePallets(selectedPallet);
+                    lungimeTB.Text = "";
+                    latimeTB.Text = "";
+                    grosimeTB.Text = "";
+                    PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+                }
+                else
+                {
+                    new measurementWindow("Scandura nu a fost potrivita la nici un palet\nVerificati dimensiunile", lungimeTB, this).Show();
+                }
+            }
         }
 
         private void btClassA_Click(object sender, RoutedEventArgs e)
         {
-           // btClassA.Background = new System.Windows.Media.SolidColorBrush(System.Windows.SystemColors);
+            planckClass.Text = "A";
         }
+
+      
 
         private void updatePallets(Pallet p)
         {
@@ -169,6 +174,184 @@ namespace WpfApplication1
 
             Label lbVolume = (Label)FindName(formPalletName + "Volume");
             lbVolume.Content = p.getVolume();
+        }
+
+        private void showPalletDetails(String formName){
+            Pallet p = palletManager.getPalletByFromName(formName);
+            new PalletDetailsWindow(p).Show();
+        }
+
+        private void kpd1_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "2";
+            }
+        }
+
+        private void kpd1_Click(object sender, RoutedEventArgs e)
+        {
+
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "1";
+            }
+        }
+
+        private void kpd1_Copy8_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            Console.Out.WriteLine("Current component is " + component.Name);
+            if (component.Text.Length <= 1) component.Text = "";
+            else
+            {
+                UInt16 width = UInt16.Parse(component.Text);
+                width /= 10;
+                component.Text = Convert.ToString(width);
+            }
+        }
+
+        private void kpd1_Copy1_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "3";
+            }
+
+        }
+
+        private void kpd1_Copy2_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "4";
+            }
+        }
+
+        private void kpd1_Copy3_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "5";
+            }
+        }
+
+        private void kpd1_Copy4_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "6";
+            }
+        }
+
+        private void kpd1_Copy5_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "7";
+            }
+        }
+
+        private void kpd1_Copy6_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "8";
+            }
+        }
+
+        private void kpd1_Copy7_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "9";
+            }
+        }
+
+        private void kpd1_Copy9_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox component = (TextBox)focusedControl;
+            if (component.Text.Length <= 2)
+            {
+                component.Text += "0";
+            }
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settingsWin = new Settings();
+            settingsWin.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            lungimeTB.Focus();
+            focusedControl = (Control)lungimeTB;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            grosimeTB.Focus();
+            focusedControl = (Control)grosimeTB;
+        }
+
+        private void latimeTB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            focusedControl = (Control)latimeTB;
+        }
+
+        private void pallet1Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet1");
+        }
+
+        private void lungimeTB_GotTouchCapture(object sender, TouchEventArgs e)
+        {
+            focusedControl = (Control)lungimeTB;
+        }
+
+        private void grosimeTB_GotTouchCapture(object sender, TouchEventArgs e)
+        {
+            focusedControl = (Control)latimeTB;
+        }
+        private void btClassB_Click(object sender, RoutedEventArgs e)
+        {
+            planckClass.Text = "B";
+
+        }
+
+        private void pallet2Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet2");
+        }
+
+        private void pallet3Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet3");
+        }
+
+        private void pallet4Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet4");
+        }
+
+        private void pallet5Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet5");
+        }
+
+        private void pallet6Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet6");
         }
 
 

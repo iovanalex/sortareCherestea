@@ -60,7 +60,7 @@ namespace WpfApplication1
 
         public double getVolume()
         {
-            uint vol=0;
+            double vol=0;
             foreach (Planck p in plancks)
             {
                 vol += p.getVolumeCCm();
