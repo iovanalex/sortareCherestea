@@ -23,7 +23,10 @@ namespace WpfApplication1
             }
             return instance;
         }
-        
+
+        public static String autoManual = "Manual";
+        public static bool connectedPlc = false;
+        public static bool running = false;
 
         public static String plcIp
         {

@@ -38,6 +38,7 @@ namespace WpfApplication1
         {
             DbPlanksDataContext db = new DbPlanksDataContext();
             Plancks dbPlancks=new Plancks();
+            //dbPlancks.Id = this.planckGuid;
             dbPlancks.bfActualLength=this.bfActualLength;
             dbPlancks.bfActualThickness=this.bfActualThickness;
             dbPlancks.bfActualWidth=this.bfActualThickness;
@@ -49,7 +50,7 @@ namespace WpfApplication1
             Console.Out.WriteLine("Inserting " +this.planckGuid);
 
             db.Plancks.InsertOnSubmit(dbPlancks);
-            //db.SubmitChanges();
+            db.SubmitChanges();
            
 
         }

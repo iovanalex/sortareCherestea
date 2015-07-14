@@ -12,7 +12,7 @@
         <TextBox x:Name="latimeTB" HorizontalAlignment="Left" Height="37" Margin="366,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24" GotFocus="latimeTB_GotFocus"/>
         <Button x:Name="btClassA" Content="A" HorizontalAlignment="Left" Margin="605,226,0,0" VerticalAlignment="Top" Width="88" Height="55" FontSize="32" Click="btClassA_Click"/>
         <Button x:Name="btClassB" Content="B" HorizontalAlignment="Left" Margin="699,226,0,0" VerticalAlignment="Top" Width="91" Height="55" FontSize="32" Click="btClassB_Click"/>
-        <Button x:Name="sysBackStart" Content="Button" HorizontalAlignment="Left" Margin="11,70,0,0" VerticalAlignment="Top" Width="75" Click="sysBackStart_Click"/>
+        <Button x:Name="sysBackStart" Content="Start reading" HorizontalAlignment="Left" Margin="11,70,0,0" VerticalAlignment="Top" Width="75" Click="sysBackStart_Click"/>
         <Label x:Name="statusConnected" Content="Connected" HorizontalAlignment="Left" Margin="0,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="61" Padding="0"/>
         <Label x:Name="statusAutoManual" Content="Manual" HorizontalAlignment="Left" Margin="61,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="44" Padding="0"/>
         <Label x:Name="statusOk" Content="OK" HorizontalAlignment="Left" Margin="105,554,0,-0.333" VerticalAlignment="Top" BorderThickness="1" BorderBrush="#FF7C7C7C" Height="17" Width="44" Padding="0"/>
@@ -77,10 +77,12 @@
         <Button x:Name="pallet4Details" Content="Details" HorizontalAlignment="Left" Margin="411,519,0,0" VerticalAlignment="Top" Width="75" Click="pallet4Details_Click"/>
         <Button x:Name="pallet5Details" Content="Details" HorizontalAlignment="Left" Margin="537,519,0,0" VerticalAlignment="Top" Width="75" Click="pallet5Details_Click"/>
         <Button x:Name="pallet6Details" Content="Details" HorizontalAlignment="Left" Margin="669,519,0,0" VerticalAlignment="Top" Width="75" Click="pallet6Details_Click"/>
-        
+
         <TextBox x:Name="planckClass" HorizontalAlignment="Left" Height="37" Margin="366,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24" GotFocus="latimeTB_GotFocus"/>
         <Label Content="Clasa" HorizontalAlignment="Left" Margin="285,138,0,0" VerticalAlignment="Top" FontSize="24" Width="76" IsEnabled="False"/>
-        <Button Content="STOP" HorizontalAlignment="Left" Margin="11,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"/>
+        <Button Content="STOP" HorizontalAlignment="Left" Margin="715,553,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"/>
+        <Button x:Name="btRapoarte" Content="Rapoarte" HorizontalAlignment="Left" Margin="11,138,0,0" VerticalAlignment="Top" Width="75" Click="btRapoarte_Click"/>
+        <Button x:Name="btPornire" Content="PORNIRE" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="75" Background="#FFFCFC07" Click="btPornire_Click"/>
 
     </Grid>
 </Window>

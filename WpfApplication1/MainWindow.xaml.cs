@@ -27,6 +27,9 @@ namespace WpfApplication1
         BackgroundWorker bw = new BackgroundWorker();
         PalletManager palletManager;
         Control focusedControl;
+       
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +39,7 @@ namespace WpfApplication1
             bw.DoWork += new DoWorkEventHandler(do_work);
             palletManager = new PalletManager(this);
             focusedControl = (Control)FindName("latimeTB");
+
         }
         
       
@@ -57,6 +61,41 @@ namespace WpfApplication1
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+
+            if (AppConfigStore.autoManual == "Auto")
+            {
+                statusAutoManual.Background = Brushes.Green;
+            }
+            if (AppConfigStore.autoManual == "Manual")
+            {
+                statusAutoManual.Background = Brushes.Orange;
+            }
+
+            if (AppConfigStore.connectedPlc == true)
+            {
+               statusConnected.Background = Brushes.Green;
+            }
+            else
+            {
+                statusConnected.Background = Brushes.Red;
+            }
+
+            if (AppConfigStore.running == true)
+            {
+               statusOk.Background = Brushes.Green;
+               btPornire.IsEnabled = false;
+            }
+            else
+            {
+                statusOk.Background = Brushes.Red;
+                btPornire.IsEnabled = true;
+            }
+
+         
+
+
+
+
             //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
             UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
             UInt16 thick = PlcDb.Instance.readGrosime("192.168.0.10");
@@ -359,6 +398,31 @@ namespace WpfApplication1
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btRapoarte_Click(object sender, RoutedEventArgs e)
+        {
+            new Rapoarte().ShowDialog();
+        }
+
+        private void btPornire_Click(object sender, RoutedEventArgs e)
+        {
+          //  ConnectionSplashScreen css = new ConnectionSplashScreen();
+          //  css.ShowDialog();
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+           // PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
+           // System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            bw.RunWorkerAsync();
+            Console.Out.WriteLine("Am initializat sistemul");
+           // css.Close();
         }
 
 
