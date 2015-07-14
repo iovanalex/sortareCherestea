@@ -23,15 +23,35 @@ namespace WpfApplication1
         {
             planckGuid = Guid.NewGuid().ToString();
             passTime = DateTime.Now;
-            bfActualLength = length;
-            bfActualWidth = width;
-            bfActualThickness = thickness;
-            bfPlanckQalClass = qalClass;
-            Console.Out.WriteLine("Create planck with " + planckGuid);
+            this.bfActualLength = length;
+            this.bfActualWidth = width;
+            this.bfActualThickness = thickness;
+            this.bfPlanckQalClass = qalClass;
+            Console.Out.WriteLine("Created planck with " + planckGuid);
         }
         public double getVolumeCCm()
         {
-            return (bfActualThickness/10.0) * bfActualWidth * bfActualLength;
+            return (this.bfActualThickness/10.0) * this.bfActualWidth * this.bfActualLength;
+        }
+
+        public void updateDatabase()
+        {
+            DbPlanksDataContext db = new DbPlanksDataContext();
+            Plancks dbPlancks=new Plancks();
+            dbPlancks.bfActualLength=this.bfActualLength;
+            dbPlancks.bfActualThickness=this.bfActualThickness;
+            dbPlancks.bfActualWidth=this.bfActualThickness;
+            dbPlancks.bfQalClass=this.bfPlanckQalClass;
+            dbPlancks.bfPlanckId = this.planckGuid;
+
+            dbPlancks.timeStamp = DateTime.Now;
+
+            Console.Out.WriteLine("Inserting " +this.planckGuid);
+
+            db.Plancks.InsertOnSubmit(dbPlancks);
+            //db.SubmitChanges();
+           
+
         }
     }
 }

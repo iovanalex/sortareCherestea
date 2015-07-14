@@ -15,12 +15,13 @@ namespace WpfApplication1
         public PalletManager(MainWindow w)
         {
             mainWin = w;
-            Pallet p1 = new Pallet("1/2015", "stejar", 150, 190, 20, 40, 20, 40, "pallet1");
-            Pallet p2 = new Pallet("2/2015", "stejar", 195, 210, 20, 40, 20, 40, "pallet2");
-            Pallet p3 = new Pallet("3/2015", "stejar", 220, 350, 20, 40, 20, 40, "pallet3");
-            //Pallet p4 = new Pallet("4/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet4");
-            //Pallet p5 = new Pallet("5/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet5");
-            //Pallet p6 = new Pallet("6/2015", "stejar", 300, 350, 20, 40, 20, 40, "pallet6");
+            //w Pallet(bfIdPallet, species, lungMin,lungMax,latMin, latMax, grosMin, grosMax, clasaCal)
+            Pallet p1 = new Pallet("1/2015", "stejar", 200, 250, 20, 60, 20, 50, "A", "pallet1");
+            Pallet p2 = new Pallet("2/2015", "stejar", 251, 310, 20, 60, 20, 50, "A", "pallet2");
+            Pallet p3 = new Pallet("3/2015", "stejar", 311, 450, 20, 60, 20, 50, "A", "pallet3");
+            Pallet p4 = new Pallet("4/2015", "stejar", 200, 250, 20, 60, 20, 50, "B", "pallet4");
+            Pallet p5 = new Pallet("5/2015", "stejar", 251, 310, 20, 60, 20, 50, "B", "pallet5");
+            Pallet p6 = new Pallet("6/2015", "stejar", 311, 450, 20, 60, 20, 50, "B", "pallet6");
             pallets.Add(p1);
             pallets.Add(p2);
             pallets.Add(p3);

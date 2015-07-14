@@ -23,8 +23,9 @@ namespace WpfApplication1
         uint bfPlanckMaxWidth;
         uint bfPlanckMinThickness;
         uint bfPlanckMaxThickness;
+        String bfClass;
 
-        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minThickness, uint maxThickness, String fName )
+        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minThickness, uint maxThickness, String bfClass, String fName )
         {
             palletGuid = Guid.NewGuid().ToString();
             bfPalletId = palletId;
@@ -35,11 +36,17 @@ namespace WpfApplication1
             bfPlanckMaxWidth = maxWidth;
             bfPlanckMinThickness = minThickness;
             bfPlanckMaxThickness = maxThickness;
+            this.bfClass = bfClass;
             formName = fName;
         }
 
         public bool matchPlanck(Planck p){
-            if ((bfMinLen < p.bfActualLength) && (p.bfActualLength <= bfMaxLen)) return true;
+            if  (
+                ((bfMinLen <= p.bfActualLength) && (p.bfActualLength <= bfMaxLen)) &&
+                ((bfPlanckMinWidth <= p.bfActualWidth) && (p.bfActualWidth <= bfPlanckMaxWidth)) &&
+                ((bfPlanckMinThickness <= p.bfActualThickness) && (p.bfActualThickness <= bfPlanckMaxThickness)) &&
+                (bfClass==p.bfPlanckQalClass)
+                )return true;
 
             return false;
         }
@@ -71,6 +78,15 @@ namespace WpfApplication1
         public String getFormName()
         {
             return formName;
+        }
+
+        public ArrayList getPlanks()
+        {
+            return plancks;
+        }
+        public void updateDatabase()
+        {
+           // Sortare
         }
     }
 }

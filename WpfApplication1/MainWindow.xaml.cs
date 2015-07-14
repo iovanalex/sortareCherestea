@@ -141,9 +141,11 @@ namespace WpfApplication1
             {
                 Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, qalClass);
                 Pallet selectedPallet = palletManager.addPlanck(p);
+              
                 if (selectedPallet != null)
                 {
                     updatePallets(selectedPallet);
+                    p.updateDatabase();
                     lungimeTB.Text = "";
                     latimeTB.Text = "";
                     grosimeTB.Text = "";
@@ -352,6 +354,11 @@ namespace WpfApplication1
         private void pallet6Details_Click(object sender, RoutedEventArgs e)
         {
             showPalletDetails("pallet6");
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
 

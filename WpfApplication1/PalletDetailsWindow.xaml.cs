@@ -22,7 +22,8 @@ namespace WpfApplication1
         public PalletDetailsWindow(Pallet p)
         {
             InitializeComponent();
-            bfPalletVolume.Text = p.getVolume().ToString();         
+            bfPalletVolume.Text = p.getVolume().ToString();
+            palletPlanksGrid.DataContext = p.getPlanks();
         }
     }
 }

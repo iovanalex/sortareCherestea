@@ -90,6 +90,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppConfigStore.cs" />
+    <Compile Include="DbPallets.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbPallets.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DbPlanks.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbPlanks.dbml</DependentUpon>
+    </Compile>
     <Compile Include="MainFormInputException.cs" />
     <Compile Include="Pallet.cs" />
     <Compile Include="IniFileIO.cs" />
@@ -145,10 +155,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="DbPallets.dbml.layout">
+      <DependentUpon>DbPallets.dbml</DependentUpon>
+    </None>
+    <None Include="DbPlanks.dbml.layout">
+      <DependentUpon>DbPlanks.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="DbPallets.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DbPallets.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DbPlanks.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DbPlanks.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -80,6 +80,7 @@
         
         <TextBox x:Name="planckClass" HorizontalAlignment="Left" Height="37" Margin="366,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="24" GotFocus="latimeTB_GotFocus"/>
         <Label Content="Clasa" HorizontalAlignment="Left" Margin="285,138,0,0" VerticalAlignment="Top" FontSize="24" Width="76" IsEnabled="False"/>
+        <Button Content="STOP" HorizontalAlignment="Left" Margin="11,145,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"/>
 
     </Grid>
 </Window>

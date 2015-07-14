@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PalletDetailsWindow" Height="309.95" Width="566.667" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <DataGrid HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="131" Width="415" IsSynchronizedWithCurrentItem="False">
+        <DataGrid x:Name="palletPlanksGrid" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="131" Width="415" IsSynchronizedWithCurrentItem="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
