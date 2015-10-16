@@ -12,12 +12,26 @@ namespace WpfApplication1
 
         DateTime passTime;
 
+        Pallet currentPallet;
+
         public uint bfActualLength { get; private set; } //in cm
         uint bfLengthClass;
         public uint bfActualWidth { get; private set; } //in cm
         public uint bfActualThickness { get; private set; } //in mm
         uint bfThicknessClass;
         public String bfPlanckQalClass { get; private set; }
+        public String bfPalletGuid {set; get;}
+
+
+        public void setPallet(Pallet p)
+        {
+            currentPallet = p;
+        }
+
+        public Pallet getCurrentPallet()
+        {
+            return currentPallet;
+        }
 
         public Planck(uint length, uint width, uint thickness, String qalClass)
         {
@@ -44,13 +58,23 @@ namespace WpfApplication1
             dbPlancks.bfActualWidth=this.bfActualThickness;
             dbPlancks.bfQalClass=this.bfPlanckQalClass;
             dbPlancks.bfPlanckId = this.planckGuid;
+            dbPlancks.bfPalletId = this.bfPalletGuid;
+            dbPlancks.bfPalletId = this.currentPallet.getBfProductName();
 
             dbPlancks.timeStamp = DateTime.Now;
 
             Console.Out.WriteLine("Inserting " +this.planckGuid);
 
-            db.Plancks.InsertOnSubmit(dbPlancks);
-            db.SubmitChanges();
+            try
+            {
+                db.Plancks.InsertOnSubmit(dbPlancks);
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                 new measurementWindow(e.ToString()).Show();
+
+            }
            
 
         }

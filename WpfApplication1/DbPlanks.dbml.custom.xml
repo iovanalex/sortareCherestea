@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SortareCherestea" Class="DbPlanksDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\SortareCherestea.mdf;Integrated Security=True" SettingsObjectName="WpfApplication1.Properties.Settings" SettingsPropertyName="SortareCheresteaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Plancks" Member="Plancks">
+    <Type Name="Plancks">
+      <Column Name="Id" AutoSync="Never" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="bfActualLength" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="bfActualWidth" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="bfActualThickness" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
+      <Column Name="bfQalClass" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="bfPalletId" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="timeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="bfPlanckId" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Member="bfProductId" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

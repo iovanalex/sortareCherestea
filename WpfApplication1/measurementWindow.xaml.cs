@@ -30,6 +30,14 @@ namespace WpfApplication1
             parentWin = w;
         }
 
+        public measurementWindow(String text)
+        {
+            InitializeComponent();
+            warnText.Content = text;
+            parentFieldWarn = null;
+            parentWin = null;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

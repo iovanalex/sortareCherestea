@@ -21,11 +21,25 @@ namespace WpfApplication1
         uint bfMaxLen;
         uint bfPlanckMinWidth;
         uint bfPlanckMaxWidth;
-        uint bfPlanckMinThickness;
-        uint bfPlanckMaxThickness;
+        uint bfPlanckMinContractThickness;
+        uint bfPlanckMaxContractThickness;
+        uint bfPlanckMinFlagThickness;
+        uint bfPlanckMaxFlagThickness;
         String bfClass;
+        String bfProductName;
+        String bfPalletGuid;
 
-        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minThickness, uint maxThickness, String bfClass, String fName )
+        public String getGuid()
+        {
+            return bfPalletGuid;
+        }
+
+        public String getProductName()
+        {
+            return bfProductName;
+        }
+
+        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minContractThickness, uint maxContractThickness, uint minFlagThickness, uint maxFlagThickness, String bfClass, String productName, String fName )
         {
             palletGuid = Guid.NewGuid().ToString();
             bfPalletId = palletId;
@@ -34,17 +48,21 @@ namespace WpfApplication1
             bfMaxLen = maxLen;
             bfPlanckMinWidth = minWidth;
             bfPlanckMaxWidth = maxWidth;
-            bfPlanckMinThickness = minThickness;
-            bfPlanckMaxThickness = maxThickness;
+            bfPlanckMinContractThickness = minContractThickness;
+            bfPlanckMaxContractThickness = maxContractThickness;
+            bfPlanckMaxFlagThickness = maxFlagThickness;
+            bfPlanckMinFlagThickness = minFlagThickness;
             this.bfClass = bfClass;
             formName = fName;
+            bfProductName = productName;
+            bfPalletGuid= Guid.NewGuid().ToString();
         }
 
         public bool matchPlanck(Planck p){
             if  (
                 ((bfMinLen <= p.bfActualLength) && (p.bfActualLength <= bfMaxLen)) &&
                 ((bfPlanckMinWidth <= p.bfActualWidth) && (p.bfActualWidth <= bfPlanckMaxWidth)) &&
-                ((bfPlanckMinThickness <= p.bfActualThickness) && (p.bfActualThickness <= bfPlanckMaxThickness)) &&
+                ((bfPlanckMinContractThickness <= p.bfActualThickness) && (p.bfActualThickness <= bfPlanckMaxContractThickness)) &&
                 (bfClass==p.bfPlanckQalClass)
                 )return true;
 
@@ -87,6 +105,10 @@ namespace WpfApplication1
         public void updateDatabase()
         {
            // Sortare
+        }
+        public String getBfProductName()
+        {
+            return bfProductName;
         }
     }
 }

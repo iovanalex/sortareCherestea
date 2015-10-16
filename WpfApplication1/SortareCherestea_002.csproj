@@ -73,6 +73,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -98,6 +99,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DbPallets.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DbPlanks.cs">
+      <DependentUpon>DbPlanks.dbml</DependentUpon>
     </Compile>
     <Compile Include="DbPlanks.designer.cs">
       <AutoGen>True</AutoGen>
@@ -227,6 +231,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DbPlanks.dbml.custom.xml" />
     <Content Include="SortareCherestea.mdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

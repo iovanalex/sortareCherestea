@@ -96,6 +96,8 @@ namespace WpfApplication1
 		
 		private string _bfPlanckId;
 		
+		private string _bfProductId;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -116,6 +118,8 @@ namespace WpfApplication1
     partial void OntimeStampChanged();
     partial void OnbfPlanckIdChanging(string value);
     partial void OnbfPlanckIdChanged();
+    partial void OnbfProductIdChanging(string value);
+    partial void OnbfProductIdChanged();
     #endregion
 		
 		public Plancks()
@@ -279,6 +283,26 @@ namespace WpfApplication1
 					this._bfPlanckId = value;
 					this.SendPropertyChanged("bfPlanckId");
 					this.OnbfPlanckIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bfProductId", CanBeNull=false)]
+		public string bfProductId
+		{
+			get
+			{
+				return this._bfProductId;
+			}
+			set
+			{
+				if ((this._bfProductId != value))
+				{
+					this.OnbfProductIdChanging(value);
+					this.SendPropertyChanging();
+					this._bfProductId = value;
+					this.SendPropertyChanged("bfProductId");
+					this.OnbfProductIdChanged();
 				}
 			}
 		}

@@ -15,18 +15,35 @@ namespace WpfApplication1
         public PalletManager(MainWindow w)
         {
             mainWin = w;
-            //w Pallet(bfIdPallet, species, lungMin,lungMax,latMin, latMax, grosMin, grosMax, clasaCal)
-            Pallet p1 = new Pallet("1/2015", "stejar", 200, 250, 20, 60, 20, 50, "A", "pallet1");
-            Pallet p2 = new Pallet("2/2015", "stejar", 251, 310, 20, 60, 20, 50, "A", "pallet2");
-            Pallet p3 = new Pallet("3/2015", "stejar", 311, 450, 20, 60, 20, 50, "A", "pallet3");
-            Pallet p4 = new Pallet("4/2015", "stejar", 200, 250, 20, 60, 20, 50, "B", "pallet4");
-            Pallet p5 = new Pallet("5/2015", "stejar", 251, 310, 20, 60, 20, 50, "B", "pallet5");
-            Pallet p6 = new Pallet("6/2015", "stejar", 311, 450, 20, 60, 20, 50, "B", "pallet6");
+            //              Pallet(palletId, species, minLen, maxLen, minWidth, maxWidth, minContractThickness, maxContractThickness, minFlagThickness, maxFlagThickness, bfClass, productName, fName)
+            Pallet p1 = new Pallet("T1/2015", "St", 140, 180, 10, 70, 38, 55, 35, 55, "M","P4StABC39xLRx1500","pallet1");
+            Pallet p2 = new Pallet("T2/2015", "St", 190, 220, 10, 70, 38, 55, 35, 55, "M","P4StABC39xLRx2000", "pallet2");
+            Pallet p3 = new Pallet("T3/2015", "St", 230, 270, 10, 70, 38, 55, 35, 55, "M","P4StABC39xLRx2500", "pallet3");
+            Pallet p4 = new Pallet("T4/2015", "St", 280, 300, 10, 70, 38, 55, 35, 55, "M","P4StABC39xLRx2900", "pallet4");
+            Pallet p5 = new Pallet("T5/2015", "St", 310, 450, 10, 70, 38, 55, 35, 55, "M","P4StABC39xLRx3100", "pallet5");
+            Pallet p6 = new Pallet("T1/2015", "St", 140, 180, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx1500", "pallet6");
+            Pallet p7 = new Pallet("T2/2015", "St", 190, 220, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx2000", "pallet7");
+            Pallet p8 = new Pallet("T3/2015", "St", 230, 270, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx2500", "pallet8");
+            Pallet p9 = new Pallet("T4/2015", "St", 280, 300, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx2900", "pallet9");
+            Pallet p10 = new Pallet("T5/2015", "St", 310, 450, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx3100", "pallet10");
+            Pallet p11 = new Pallet("T4/2015", "St", 280, 300, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx2900", "pallet11");
+            Pallet p12 = new Pallet("T5/2015", "St", 310, 450, 10, 70, 38, 55, 35, 55, "M", "P4StABC39xLRx3100", "pallet12");
+
+ 
             pallets.Add(p1);
             pallets.Add(p2);
             pallets.Add(p3);
-            //pallets.Add(p4);
-            //pallets.Add(p5);
+            pallets.Add(p4);
+            pallets.Add(p5);
+            pallets.Add(p6);
+            pallets.Add(p7);
+            pallets.Add(p8);
+            pallets.Add(p9);
+            pallets.Add(p10);
+            pallets.Add(p11);
+            pallets.Add(p12);
+           
+
             //pallets.Add(p6);
     
         }
@@ -37,6 +54,8 @@ namespace WpfApplication1
                 if (pallet.matchPlanck(p))
                 {
                     pallet.addPlanck(p);
+                    p.setPallet(pallet);
+                    p.bfPalletGuid = pallet.getGuid();
                     //mainWin.updatePallets(pallet);
                     return pallet;
                 }

@@ -188,6 +188,7 @@ namespace WpfApplication1
                     lungimeTB.Text = "";
                     latimeTB.Text = "";
                     grosimeTB.Text = "";
+                    planckClass.Text = "";
                     PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
                 }
                 else
@@ -215,6 +216,9 @@ namespace WpfApplication1
 
             Label lbVolume = (Label)FindName(formPalletName + "Volume");
             lbVolume.Content = p.getVolume();
+
+            Label lbBfProductName = (Label)FindName(formPalletName + "bfProductName");
+            lbBfProductName.Content = p.getBfProductName();
         }
 
         private void showPalletDetails(String formName){
@@ -423,6 +427,11 @@ namespace WpfApplication1
             bw.RunWorkerAsync();
             Console.Out.WriteLine("Am initializat sistemul");
            // css.Close();
+        }
+
+        private void bfClassM_Click(object sender, RoutedEventArgs e)
+        {
+            planckClass.Text = "M";
         }
 
 

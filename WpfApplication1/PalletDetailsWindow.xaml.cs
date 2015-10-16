@@ -12,6 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Linq;
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
 namespace WpfApplication1
 {
     /// <summary>
@@ -23,7 +29,25 @@ namespace WpfApplication1
         {
             InitializeComponent();
             bfPalletVolume.Text = p.getVolume().ToString();
-            palletPlanksGrid.DataContext = p.getPlanks();
+            String query ;
+            query = "SELECT * FROM Plancks WHERE bfPalletID="+p.getGuid();
+
+            fillDataGrid(palletPlanksGrid, query);
+        }
+
+        private void fillDataGrid(DataGrid dg, String CmdString)
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            //string CmdString = string.Empty;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                //CmdString = "SELECT * FROM Plancks";
+                SqlCommand cmd = new SqlCommand(CmdString, con);
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("Raport");
+                sda.Fill(dt);
+                dg.ItemsSource = dt.DefaultView;
+            }
         }
     }
 }
