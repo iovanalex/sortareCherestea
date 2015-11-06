@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DbPlanks">
+  <DataContextMoniker Name="/DbPlanksDataContext" />
+  <nestedChildShapes>
+    <classShape Id="6c3c5b04-3c70-4c72-8f88-44d613606838" absoluteBounds="0.875, 0.625, 2, 2.5401025390625">
+      <DataClassMoniker Name="/DbPlanksDataContext/Plancks" />
+      <nestedChildShapes>
+        <elementListCompartment Id="110b77e7-c3b5-43f3-a259-583eb000abe3" absoluteBounds="0.89, 1.085, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

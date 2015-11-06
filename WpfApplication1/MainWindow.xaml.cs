@@ -27,7 +27,7 @@ namespace WpfApplication1
         BackgroundWorker bw = new BackgroundWorker();
         PalletManager palletManager;
         Control focusedControl;
-       
+        bool manualDataInput = false;
 
 
         public MainWindow()
@@ -97,23 +97,26 @@ namespace WpfApplication1
 
 
             //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
-            UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
-            UInt16 thick = PlcDb.Instance.readGrosime("192.168.0.10");
-            if (len > 0)
+            if (manualDataInput == false)
             {
-                this.lungimeTB.Text = Convert.ToString(len);
-            }
-            else
-            {
-                this.lungimeTB.Text = "N/A";
-            }
-            if (thick > 0)
-            {
-                this.grosimeTB.Text = Convert.ToString(thick);
-            }
-            else
-            {
-                this.grosimeTB.Text = "N/A";
+                UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
+                UInt16 thick = PlcDb.Instance.readGrosime("192.168.0.10");
+                if (len > 0)
+                {
+                    this.lungimeTB.Text = Convert.ToString(len);
+                }
+                else
+                {
+                    this.lungimeTB.Text = "N/A";
+                }
+                if (thick > 0)
+                {
+                    this.grosimeTB.Text = Convert.ToString(thick);
+                }
+                else
+                {
+                    this.grosimeTB.Text = "N/A";
+                }
             }
         }
 
@@ -189,7 +192,7 @@ namespace WpfApplication1
                     latimeTB.Text = "";
                     grosimeTB.Text = "";
                     planckClass.Text = "";
-                    PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+                   // PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
                 }
                 else
                 {
@@ -224,6 +227,13 @@ namespace WpfApplication1
         private void showPalletDetails(String formName){
             Pallet p = palletManager.getPalletByFromName(formName);
             new PalletDetailsWindow(p).Show();
+        }
+
+        private void resetPallet(String formName)
+        {
+            Pallet p = palletManager.getPalletByFromName(formName);
+            p.reset();
+            updatePallets(p);
         }
 
         private void kpd1_Copy_Click(object sender, RoutedEventArgs e)
@@ -341,12 +351,36 @@ namespace WpfApplication1
         {
             lungimeTB.Focus();
             focusedControl = (Control)lungimeTB;
+            if (manualDataInput == false)
+            {
+                manualDataInput = true;
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);
+                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(4);
+            }
+            else
+            {
+                manualDataInput = false;
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(0);
+                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(0);
+            }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             grosimeTB.Focus();
             focusedControl = (Control)grosimeTB;
+            if (manualDataInput == false)
+            {
+                manualDataInput = true;
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);
+                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(4);
+            }
+            else
+            {
+                manualDataInput = false;
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(0);
+                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(0);
+            }
         }
 
         private void latimeTB_GotFocus(object sender, RoutedEventArgs e)
@@ -356,7 +390,8 @@ namespace WpfApplication1
 
         private void pallet1Details_Click(object sender, RoutedEventArgs e)
         {
-            showPalletDetails("pallet1");
+           // showPalletDetails("pallet1");
+            resetPallet("pallet1");
         }
 
         private void lungimeTB_GotTouchCapture(object sender, TouchEventArgs e)

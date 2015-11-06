@@ -110,5 +110,11 @@ namespace WpfApplication1
         {
             return bfProductName;
         }
+
+        public void reset()
+        {
+            plancks.RemoveRange(0, plancks.Count);
+            palletGuid = Guid.NewGuid().ToString();
+        }
     }
 }

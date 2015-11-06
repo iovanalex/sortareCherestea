@@ -55,11 +55,11 @@ namespace WpfApplication1
             //dbPlancks.Id = this.planckGuid;
             dbPlancks.bfActualLength=this.bfActualLength;
             dbPlancks.bfActualThickness=this.bfActualThickness;
-            dbPlancks.bfActualWidth=this.bfActualThickness;
+            dbPlancks.bfActualWidth=this.bfActualWidth;
             dbPlancks.bfQalClass=this.bfPlanckQalClass;
             dbPlancks.bfPlanckId = this.planckGuid;
             dbPlancks.bfPalletId = this.bfPalletGuid;
-            dbPlancks.bfPalletId = this.currentPallet.getBfProductName();
+            dbPlancks.bfProductId = this.currentPallet.getBfProductName();
 
             dbPlancks.timeStamp = DateTime.Now;
 
