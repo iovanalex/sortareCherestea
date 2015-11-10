@@ -144,6 +144,9 @@
     <Compile Include="measurementWindow.xaml.cs">
       <DependentUpon>measurementWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewPalletWindow.xaml.cs">
+      <DependentUpon>NewPalletWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="ConnectionSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="measurementWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewPalletWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

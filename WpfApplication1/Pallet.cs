@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
+using System.Linq;
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
 namespace WpfApplication1
 {
     public class Pallet
@@ -39,7 +45,7 @@ namespace WpfApplication1
             return bfProductName;
         }
 
-        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minContractThickness, uint maxContractThickness, uint minFlagThickness, uint maxFlagThickness, String bfClass, String productName, String fName )
+        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minContractThickness, uint maxContractThickness, uint minFlagThickness, uint maxFlagThickness, String bfClass, String productName, String fName)
         {
             palletGuid = Guid.NewGuid().ToString();
             bfPalletId = palletId;
@@ -55,22 +61,65 @@ namespace WpfApplication1
             this.bfClass = bfClass;
             formName = fName;
             bfProductName = productName;
-            bfPalletGuid= Guid.NewGuid().ToString();
+            bfPalletGuid = Guid.NewGuid().ToString();
+            //INSERT INTO Pallets('bfPalletId', 'bfSpecies', bfMinLen','bfMaxLen', 'bfPlankMinWidth', 'bfPlankMaxWidth', 'bfPlankMinThickness', 'bfPlankMaxThickness', 'formName', 'timeStart' VALUES ,fag,201,240,8,60,38,38,pallet19/11/2015 12:37:24 AM
+            
+            String InsertPalletQueryString = @"INSERT INTO Pallets (
+                    Id,
+					bfPalletId, 
+					bfSpecies, 
+					bfMinLen,
+					bfMaxLen, 
+					bfPlanckMinWidth, 
+					bfPlanckMaxWidth, 
+					bfPlanckMinThickness, 
+					bfPlanckMaxThickness, 
+					formName, 
+					timeStart) 
+					VALUES ('"+this.palletGuid+
+                              "','"+this.bfPalletId +
+                              "','"+this.bfSpecies+
+                              "','"+this.bfMinLen+
+                              "','"+this.bfMaxLen+
+                              "','"+this.bfPlanckMinWidth+
+                              "','"+this.bfPlanckMaxWidth+
+                              "','"+this.bfPlanckMinContractThickness+
+                              "','"+this.bfPlanckMaxContractThickness+
+                              "','"+this.formName+
+                              "','"+DateTime.Now+"')";
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                con.Open();
+                Console.Out.WriteLine("Add new pallet query: " + InsertPalletQueryString);
+                SqlCommand cmd = new SqlCommand(InsertPalletQueryString, con);
+                cmd.ExecuteNonQuery();
+                Console.Out.WriteLine("INFO: Inserted Pallet: " + this.palletGuid);
+
+                String updateLastPalletIdCommand = @"UPDATE Variabile 
+                                                        SET value='" + this.bfPalletId + 
+                                                     "' WHERE varName='lastPalletId'";
+                cmd = new SqlCommand(updateLastPalletIdCommand, con);
+                cmd.ExecuteNonQuery();
+            }
+            
         }
 
-        public bool matchPlanck(Planck p){
-            if  (
+        public bool matchPlanck(Planck p)
+        {
+            if (
                 ((bfMinLen <= p.bfActualLength) && (p.bfActualLength <= bfMaxLen)) &&
                 ((bfPlanckMinWidth <= p.bfActualWidth) && (p.bfActualWidth <= bfPlanckMaxWidth)) &&
                 ((bfPlanckMinContractThickness <= p.bfActualThickness) && (p.bfActualThickness <= bfPlanckMaxContractThickness)) &&
-                (bfClass==p.bfPlanckQalClass)
-                )return true;
+                (bfClass == p.bfPlanckQalClass)
+                ) return true;
 
             return false;
         }
 
-        public void addPlanck(Planck p){
-            if (plancks.Count==0)
+        public void addPlanck(Planck p)
+        {
+            if (plancks.Count == 0)
             {
                 timeStart = DateTime.Now;
             }
@@ -85,12 +134,12 @@ namespace WpfApplication1
 
         public double getVolume()
         {
-            double vol=0;
+            double vol = 0;
             foreach (Planck p in plancks)
             {
                 vol += p.getVolumeCCm();
             }
-            return vol/1000000.0;
+            return vol / 1000000.0;
         }
 
         public String getFormName()
@@ -104,7 +153,7 @@ namespace WpfApplication1
         }
         public void updateDatabase()
         {
-           // Sortare
+            // Sortare
         }
         public String getBfProductName()
         {
@@ -116,5 +165,7 @@ namespace WpfApplication1
             plancks.RemoveRange(0, plancks.Count);
             palletGuid = Guid.NewGuid().ToString();
         }
+
+
     }
 }

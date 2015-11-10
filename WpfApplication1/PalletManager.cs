@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace WpfApplication1
 {
-    class PalletManager
+    public class PalletManager
     {
         ArrayList pallets = new ArrayList();
         MainWindow mainWin;
@@ -15,6 +15,8 @@ namespace WpfApplication1
         public PalletManager(MainWindow w)
         {
             mainWin = w;
+
+            /*
             //              Pallet(palletId, species, minLen, maxLen, minWidth, maxWidth, minContractThickness, maxContractThickness, minFlagThickness, maxFlagThickness, bfClass, productName, fName)
             Pallet p1 = new Pallet("1700", "St", 160, 190, 1, 100, 30, 42, 35, 55, "A","1700","pallet1");
             Pallet p2 = new Pallet("2000", "St", 200, 240, 1, 100, 30, 42, 35, 55, "A", "2000", "pallet2");
@@ -42,11 +44,15 @@ namespace WpfApplication1
             pallets.Add(p10);
             pallets.Add(p11);
             pallets.Add(p12);
-           
-
-            //pallets.Add(p6);
+           */
     
         }
+
+        public void addPallet(Pallet p){
+            pallets.Add(p);
+            mainWin.updatePallets(p);
+        }
+
         public Pallet addPlanck(Planck p)
         {
             foreach (Pallet pallet in pallets)

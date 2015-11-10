@@ -28,26 +28,29 @@ namespace WpfApplication1
         public PalletDetailsWindow(Pallet p)
         {
             InitializeComponent();
+            bfPalletId.Text = p.bfPalletId;
+            bfPlancks.Text = p.getPlanckCount().ToString();
             bfPalletVolume.Text = p.getVolume().ToString();
-            String query ;
-            query = "SELECT * FROM Plancks WHERE bfPalletID="+p.getGuid();
-
-            fillDataGrid(palletPlanksGrid, query);
+            fillDataGrid(palletPlanksGrid, p.getGuid());
         }
 
-        private void fillDataGrid(DataGrid dg, String CmdString)
+        private void fillDataGrid(DataGrid dg, String palletGuid)
         {
-            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
-            //string CmdString = string.Empty;
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;            
             using (SqlConnection con = new SqlConnection(ConString))
             {
-                //CmdString = "SELECT * FROM Plancks";
-                SqlCommand cmd = new SqlCommand(CmdString, con);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                String queryPlanks = "SELECT * FROM Plancks WHERE bfPalletID LIKE '" + palletGuid+"'";
+                Console.Out.WriteLine(queryPlanks);
+                SqlDataAdapter sda = new SqlDataAdapter(new SqlCommand(queryPlanks, con));
                 DataTable dt = new DataTable("Raport");
                 sda.Fill(dt);
                 dg.ItemsSource = dt.DefaultView;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading;
-using System.ComponentModel;
-using System.Collections;
 //using System.Windows.Media.Brush;
 
 namespace WpfApplication1
@@ -90,11 +80,6 @@ namespace WpfApplication1
                 statusOk.Background = Brushes.Red;
                 btPornire.IsEnabled = true;
             }
-
-         
-
-
-
 
             //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
             if (manualDataInput == false)
@@ -192,7 +177,7 @@ namespace WpfApplication1
                     latimeTB.Text = "";
                     grosimeTB.Text = "";
                     planckClass.Text = "";
-                   // PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+                    PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
                 }
                 else
                 {
@@ -208,7 +193,7 @@ namespace WpfApplication1
 
       
 
-        private void updatePallets(Pallet p)
+        public void updatePallets(Pallet p)
         {
             String formPalletName = p.getFormName();
             Label lbPcs = (Label)FindName(formPalletName + "Pcs");
@@ -226,7 +211,14 @@ namespace WpfApplication1
 
         private void showPalletDetails(String formName){
             Pallet p = palletManager.getPalletByFromName(formName);
-            new PalletDetailsWindow(p).Show();
+            if ((p!=null)&&(p.getPlanckCount()!=0))
+            {
+                new PalletDetailsWindow(p).Show();
+            }
+            else
+            {
+                new NewPalletWindow(formName, palletManager).Show();
+            }
         }
 
         private void resetPallet(String formName)
@@ -354,59 +346,80 @@ namespace WpfApplication1
             if (manualDataInput == false)
             {
                 manualDataInput = true;
-                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);
-                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(4);
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);            
             }
             else
             {
                 manualDataInput = false;
                 manualLengthBtn.BorderThickness = new System.Windows.Thickness(0);
-                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(0);
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+
+        private void btPornire_Click(object sender, RoutedEventArgs e)
         {
-            grosimeTB.Focus();
-            focusedControl = (Control)grosimeTB;
-            if (manualDataInput == false)
+            //  ConnectionSplashScreen css = new ConnectionSplashScreen();
+            //  css.ShowDialog();
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            // PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
+            // System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
+            System.Threading.Thread.Sleep(500);
+            
+            Console.Out.WriteLine("Am initializat sistemul");
+            // css.Close();
+            ArrayList pallets = palletManager.getPallets();
+            foreach (Pallet p in pallets)
             {
-                manualDataInput = true;
-                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);
-                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(4);
+                updatePallets(p);
             }
-            else
-            {
-                manualDataInput = false;
-                manualLengthBtn.BorderThickness = new System.Windows.Thickness(0);
-                manualThicknessBtn.BorderThickness = new System.Windows.Thickness(0);
-            }
+            bw.RunWorkerAsync();
+
         }
 
         private void latimeTB_GotFocus(object sender, RoutedEventArgs e)
         {
             focusedControl = (Control)latimeTB;
         }
-
-        private void pallet1Details_Click(object sender, RoutedEventArgs e)
-        {
-           // showPalletDetails("pallet1");
-            resetPallet("pallet1");
-        }
-
         private void lungimeTB_GotTouchCapture(object sender, TouchEventArgs e)
         {
             focusedControl = (Control)lungimeTB;
         }
-
         private void grosimeTB_GotTouchCapture(object sender, TouchEventArgs e)
         {
             focusedControl = (Control)latimeTB;
         }
+
         private void btClassB_Click(object sender, RoutedEventArgs e)
         {
             planckClass.Text = "B";
 
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btRapoarte_Click(object sender, RoutedEventArgs e)
+        {
+            new Rapoarte().ShowDialog();
+        }
+
+        private void bfClassM_Click(object sender, RoutedEventArgs e)
+        {
+            planckClass.Text = "M";
+        }
+        //----------------------------------------------------------------------------
+        private void pallet1Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet1");
         }
 
         private void pallet2Details_Click(object sender, RoutedEventArgs e)
@@ -434,40 +447,53 @@ namespace WpfApplication1
             showPalletDetails("pallet6");
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void pallet7Details_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            showPalletDetails("pallet7");
         }
 
-        private void btRapoarte_Click(object sender, RoutedEventArgs e)
+        private void pallet8Details_Click(object sender, RoutedEventArgs e)
         {
-            new Rapoarte().ShowDialog();
+            showPalletDetails("pallet8");
         }
 
-        private void btPornire_Click(object sender, RoutedEventArgs e)
+        private void pallet9Details_Click(object sender, RoutedEventArgs e)
         {
-          //  ConnectionSplashScreen css = new ConnectionSplashScreen();
-          //  css.ShowDialog();
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-           // PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
-           // System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            bw.RunWorkerAsync();
-            Console.Out.WriteLine("Am initializat sistemul");
-           // css.Close();
+            showPalletDetails("pallet9");
         }
 
-        private void bfClassM_Click(object sender, RoutedEventArgs e)
+        private void pallet10Details_Click(object sender, RoutedEventArgs e)
         {
-            planckClass.Text = "M";
+            showPalletDetails("pallet10");
         }
+
+        private void pallet11Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet11");
+        }
+
+        private void pallet12Details_Click(object sender, RoutedEventArgs e)
+        {
+            showPalletDetails("pallet12");
+        }
+        //----------------------------------------------------------------------------
+        private void lungimeTB_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            focusedControl = (Control)lungimeTB;
+        }
+
+        private void grosimeTB_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            focusedControl = (Control)grosimeTB;
+        }
+
+        private void latimeTB_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            focusedControl = (Control)latimeTB;
+        }
+
+
+       
 
 
 
