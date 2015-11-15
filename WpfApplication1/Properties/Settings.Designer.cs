@@ -26,11 +26,22 @@ namespace WpfApplication1.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\SortareCherestea.mdf" +
-            ";Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=D:\\SortareCherestea.mdf;Integrated S" +
+            "ecurity=True")]
         public string SortareCheresteaConnectionString {
             get {
                 return ((string)(this["SortareCheresteaConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\SortareCherestea.mdf" +
+            ";Integrated Security=True")]
+        public string SortareCheresteaConnectionString1 {
+            get {
+                return ((string)(this["SortareCheresteaConnectionString1"]));
             }
         }
     }

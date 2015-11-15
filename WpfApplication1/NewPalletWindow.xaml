@@ -1,0 +1,29 @@
+﻿<Window x:Class="WpfApplication1.NewPalletWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window1" Height="350" Width="420">
+    <Grid Margin="0,-1,-0.333,0.667">
+        <Label Content="ID Pallet" HorizontalAlignment="Left" Margin="88,14,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="palletIdText" Content="" HorizontalAlignment="Left" Margin="180,13,0,0" VerticalAlignment="Top" Width="116" BorderBrush="Black" BorderThickness="1" FontSize="20"/>
+        <Label Content="Produs" HorizontalAlignment="Left" Margin="88,58,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="20" FontWeight="Bold"/>
+        <ComboBox x:Name="bfProductsCb" HorizontalAlignment="Left" Margin="180,63,0,0" VerticalAlignment="Top" Width="184" FontSize="20" SelectionChanged="bfProductsCb_SelectionChanged"/>
+        <Label Content="Min len:" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMinLen" Content="" HorizontalAlignment="Left" Margin="102,113,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Max len:" HorizontalAlignment="Left" Margin="209,113,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMaxLen" Content="" HorizontalAlignment="Left" Margin="301,113,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Min width:" HorizontalAlignment="Left" Margin="10,151,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMinWidth" Content="" HorizontalAlignment="Left" Margin="102,151,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Max width:" HorizontalAlignment="Left" Margin="209,151,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMaxWidth" Content="" HorizontalAlignment="Left" Margin="301,151,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Min thick:" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMinThick" Content="" HorizontalAlignment="Left" Margin="102,187,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Max thick:" HorizontalAlignment="Left" Margin="209,187,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletMaxThick" Content="" HorizontalAlignment="Left" Margin="301,187,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Class:" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletClass" Content="" HorizontalAlignment="Left" Margin="102,223,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Label Content="Species:" HorizontalAlignment="Left" Margin="209,223,0,0" VerticalAlignment="Top" Width="92" BorderThickness="0,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="newPalletSpecies" Content="" HorizontalAlignment="Left" Margin="301,223,0,0" VerticalAlignment="Top" Width="92" BorderThickness="1,0,0,1" BorderBrush="Black" FontSize="16" FontWeight="Bold" Background="#FFEFE459"/>
+        <Button Content="Deschide" HorizontalAlignment="Left" Margin="119,265,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Button_Click_1"/>
+        <Button Content="Renunta" HorizontalAlignment="Left" Margin="209,265,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Button_Click"/>
+    </Grid>
+</Window>

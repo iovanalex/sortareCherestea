@@ -7,6 +7,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 //using System.Windows.Media.Brush;
 
+using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
 namespace WpfApplication1
 {
     /// <summary>
@@ -29,6 +34,22 @@ namespace WpfApplication1
             bw.DoWork += new DoWorkEventHandler(do_work);
             palletManager = new PalletManager(this);
             focusedControl = (Control)FindName("latimeTB");
+
+            //--------LOAD OPEN PALLETS----------------
+            
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                con.Open();
+                String getOpenPallets = "SELECT * FROM Pallets WHERE  timeStop IS NULL";
+                SqlCommand cmd = new SqlCommand(getOpenPallets, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.Out.WriteLine("Found open package with id "+reader["bfPalletId"]+" on position "+reader["formName"]);
+                }
+            }
+            //-----------------------------------------
 
         }
         
@@ -177,7 +198,12 @@ namespace WpfApplication1
                     latimeTB.Text = "";
                     grosimeTB.Text = "";
                     planckClass.Text = "";
-                    PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+                    
+                   // PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+
+                    String coadaScanduri = selectedPallet.bfPalletId + "," + selectedPallet.getBfProductName() + "," + p.bfActualLength + "," + p.bfPlanckQalClass;
+                    planckQueue.Items.Add(coadaScanduri);
+                    manualDataInput = false;
                 }
                 else
                 {
@@ -189,6 +215,7 @@ namespace WpfApplication1
         private void btClassA_Click(object sender, RoutedEventArgs e)
         {
             planckClass.Text = "A";
+            planckClass.Background = btClassA.Background;
         }
 
       
@@ -341,17 +368,19 @@ namespace WpfApplication1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            lungimeTB.Focus();
-            focusedControl = (Control)lungimeTB;
             if (manualDataInput == false)
             {
                 manualDataInput = true;
-                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);            
+                manualLengthBtn.BorderThickness = new System.Windows.Thickness(4);
+                lungimeTB.IsEnabled = true;
+                grosimeTB.IsEnabled = true;
             }
             else
             {
                 manualDataInput = false;
                 manualLengthBtn.BorderThickness = new System.Windows.Thickness(0);
+                lungimeTB.IsEnabled = false;
+                grosimeTB.IsEnabled = false;
             }
         }
 
@@ -391,15 +420,12 @@ namespace WpfApplication1
         {
             focusedControl = (Control)lungimeTB;
         }
-        private void grosimeTB_GotTouchCapture(object sender, TouchEventArgs e)
-        {
-            focusedControl = (Control)latimeTB;
-        }
+    
 
         private void btClassB_Click(object sender, RoutedEventArgs e)
         {
             planckClass.Text = "B";
-
+            planckClass.Background = btClassB.Background;
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -415,6 +441,7 @@ namespace WpfApplication1
         private void bfClassM_Click(object sender, RoutedEventArgs e)
         {
             planckClass.Text = "M";
+            planckClass.Background = bfClassM.Background;
         }
         //----------------------------------------------------------------------------
         private void pallet1Details_Click(object sender, RoutedEventArgs e)
@@ -490,6 +517,14 @@ namespace WpfApplication1
         private void latimeTB_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             focusedControl = (Control)latimeTB;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Planck latest = palletManager.getLatest();
+            manualDataInput = true;
+           // lungimeTB.Text = UInt32.Parse(latest.bfActualLength);
+           // latimeTB=latest.bfActualWidth
         }
 
 

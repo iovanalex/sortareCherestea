@@ -10,6 +10,8 @@ namespace WpfApplication1
     public class PalletManager
     {
         ArrayList pallets = new ArrayList();
+       
+        Stack<Planck> planckStack = new Stack<Planck>(5);
         MainWindow mainWin;
 
         public PalletManager(MainWindow w)
@@ -63,6 +65,7 @@ namespace WpfApplication1
                     p.setPallet(pallet);
                     p.bfPalletGuid = pallet.getGuid();
                     //mainWin.updatePallets(pallet);
+                    planckStack.Push(p);
                     return pallet;
                 }
             }
@@ -84,6 +87,27 @@ namespace WpfApplication1
                 }
             }
             return null;
+        }
+        public Planck getLatest()
+        {
+            Planck latest = planckStack.Peek();
+            bool gasit=false;
+            foreach (Pallet pal in pallets)
+            {
+                if (pal.contains(latest))
+                {
+                    gasit = true;
+                    break;
+                }
+            }
+            if (gasit)
+            {
+                return planckStack.Pop();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

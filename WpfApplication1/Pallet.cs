@@ -64,7 +64,7 @@ namespace WpfApplication1
             bfPalletGuid = Guid.NewGuid().ToString();
             //INSERT INTO Pallets('bfPalletId', 'bfSpecies', bfMinLen','bfMaxLen', 'bfPlankMinWidth', 'bfPlankMaxWidth', 'bfPlankMinThickness', 'bfPlankMaxThickness', 'formName', 'timeStart' VALUES ,fag,201,240,8,60,38,38,pallet19/11/2015 12:37:24 AM
             
-            String InsertPalletQueryString = @"INSERT INTO Pallets (
+            String InsertPalletQueryString = @"set dateformat dmy; INSERT INTO Pallets (
                     Id,
 					bfPalletId, 
 					bfSpecies, 
@@ -164,6 +164,11 @@ namespace WpfApplication1
         {
             plancks.RemoveRange(0, plancks.Count);
             palletGuid = Guid.NewGuid().ToString();
+        }
+
+        public bool contains(Planck p)
+        {
+            return plancks.Contains(p);
         }
 
 

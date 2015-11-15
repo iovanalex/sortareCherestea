@@ -73,7 +73,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -134,6 +136,9 @@
     </Compile>
     <Compile Include="PalletManager.cs" />
     <Compile Include="Planck.cs" />
+    <Compile Include="ProductsManager.xaml.cs">
+      <DependentUpon>ProductsManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Rapoarte.xaml.cs">
       <DependentUpon>Rapoarte.xaml</DependentUpon>
     </Compile>
@@ -146,6 +151,11 @@
     </Compile>
     <Compile Include="NewPalletWindow.xaml.cs">
       <DependentUpon>NewPalletWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SortareCheresteaDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SortareCheresteaDataSet.xsd</DependentUpon>
     </Compile>
     <Page Include="ConnectionSplashScreen.xaml">
       <SubType>Designer</SubType>
@@ -165,6 +175,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PalletDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductsManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +245,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="SortareCheresteaDataSet.xsc">
+      <DependentUpon>SortareCheresteaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SortareCheresteaDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SortareCheresteaDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SortareCheresteaDataSet.xss">
+      <DependentUpon>SortareCheresteaDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

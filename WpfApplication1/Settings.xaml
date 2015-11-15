@@ -12,6 +12,7 @@
         <Button Content="Start" HorizontalAlignment="Left" Margin="372,10,0,0" VerticalAlignment="Top" Width="75" Click="start_handler" Height="45"/>
         <Button Content="Next planck" HorizontalAlignment="Left" Margin="372,61,0,0" VerticalAlignment="Top" Width="75" Click="nextPlanck_click" Height="45"/>
         <Button x:Name="btInchideSettings" Content="Inchide" HorizontalAlignment="Left" Margin="693,489,0,0" VerticalAlignment="Top" Width="75" Click="btInchideSettings_Click" Height="49"/>
+        <Button Content="Gestiune produse" HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Width="100" Height="56" Click="Button_Click"/>
 
     </Grid>
 </Window>
