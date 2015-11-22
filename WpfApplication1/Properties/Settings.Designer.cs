@@ -27,7 +27,7 @@ namespace WpfApplication1.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\v11.0;AttachDbFilename=D:\\SortareCherestea.mdf;Integrated S" +
-            "ecurity=True")]
+            "ecurity=True;MultipleActiveResultSets=True")]
         public string SortareCheresteaConnectionString {
             get {
                 return ((string)(this["SortareCheresteaConnectionString"]));

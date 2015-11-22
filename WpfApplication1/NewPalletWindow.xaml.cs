@@ -114,7 +114,8 @@ namespace WpfApplication1
                                     UInt32.Parse(newPalletMaxThick.Content.ToString()),
                                     newPalletClass.Content.ToString(),
                                     bfProductsCb.SelectedItem.ToString(),
-                                    formName
+                                    formName,
+                                    false //it's not recovered from DB, but created newly
                                     );
                 pm.addPallet(p);
                 this.Close();

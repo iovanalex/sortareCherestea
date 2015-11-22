@@ -63,8 +63,9 @@ namespace WpfApplication1
                 {
                     pallet.addPlanck(p);
                     p.setPallet(pallet);
-                    p.bfPalletGuid = pallet.getGuid();
-                    //mainWin.updatePallets(pallet);
+                    p.selectedPalletGuid = pallet.getGuid();
+                    p.bfPalletId = pallet.getGuid();
+                    mainWin.updatePallets(pallet);
                     planckStack.Push(p);
                     return pallet;
                 }
@@ -108,6 +109,12 @@ namespace WpfApplication1
             {
                 return null;
             }
+        }
+
+        public void clearEverithing()
+        {
+            pallets.Clear();
+            planckStack.Clear();
         }
     }
 }

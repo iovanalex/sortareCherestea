@@ -8,20 +8,34 @@ namespace WpfApplication1
 {
     public class Planck
     {
-        String planckGuid;
-
-        DateTime passTime;
-
-        Pallet currentPallet;
-
         public uint bfActualLength { get; private set; } //in cm
         uint bfLengthClass;
         public uint bfActualWidth { get; private set; } //in cm
         public uint bfActualThickness { get; private set; } //in mm
         uint bfThicknessClass;
         public String bfPlanckQalClass { get; private set; }
-        public String bfPalletGuid {set; get;}
+        
 
+        String planckGuid;
+        public String selectedPalletGuid {get; set;}
+        DateTime passTime;
+        Pallet currentPallet;
+        public String bfPalletId {set; get;}
+
+
+        public Planck(uint length, uint width, uint thickness, String qalClass, String planckGuid, String bfPalletId)
+        {
+            planckGuid = Guid.NewGuid().ToString();
+            passTime = DateTime.Now;
+            this.bfActualLength = length;
+            this.bfActualWidth = width;
+            this.bfActualThickness = thickness;
+            this.bfPlanckQalClass = qalClass;
+            this.planckGuid = planckGuid;
+            this.bfPalletId = bfPalletId;
+
+            Console.Out.WriteLine("Created from DB planck with " + planckGuid);
+        }
 
         public void setPallet(Pallet p)
         {
@@ -41,7 +55,12 @@ namespace WpfApplication1
             this.bfActualWidth = width;
             this.bfActualThickness = thickness;
             this.bfPlanckQalClass = qalClass;
-            Console.Out.WriteLine("Created planck with " + planckGuid);
+           
+            Console.Out.WriteLine("Created orginal planck with " + planckGuid);
+        }
+
+        public void setOnPallet(String bfPalletId){
+            this.bfPalletId = bfPalletId;
         }
         public double getVolumeCCm()
         {
@@ -58,7 +77,7 @@ namespace WpfApplication1
             dbPlancks.bfActualWidth=this.bfActualWidth;
             dbPlancks.bfQalClass=this.bfPlanckQalClass;
             dbPlancks.bfPlanckId = this.planckGuid;
-            dbPlancks.bfPalletId = this.bfPalletGuid;
+            dbPlancks.bfPalletId = this.bfPalletId;
             dbPlancks.bfProductId = this.currentPallet.getBfProductName();
 
             dbPlancks.timeStamp = DateTime.Now;

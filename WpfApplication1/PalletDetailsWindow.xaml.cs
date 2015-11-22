@@ -40,7 +40,7 @@ namespace WpfApplication1
             using (SqlConnection con = new SqlConnection(ConString))
             {
                 String queryPlanks = "SELECT * FROM Plancks WHERE bfPalletID LIKE '" + palletGuid+"'";
-                Console.Out.WriteLine(queryPlanks);
+                Console.Out.WriteLine("Searching for planks "+queryPlanks);
                 SqlDataAdapter sda = new SqlDataAdapter(new SqlCommand(queryPlanks, con));
                 DataTable dt = new DataTable("Raport");
                 sda.Fill(dt);

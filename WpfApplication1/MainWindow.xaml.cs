@@ -37,18 +37,58 @@ namespace WpfApplication1
 
             //--------LOAD OPEN PALLETS----------------
             
+            palletManager.clearEverithing();
             string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(ConString))
             {
                 con.Open();
-                String getOpenPallets = "SELECT * FROM Pallets WHERE  timeStop IS NULL";
+                String getOpenPallets = @"SELECT pa.Id, pa.bfPalletId,pa.bfSpecies,pa.bfMinLen,
+                                                 pa.bfMaxLen,bfPlanckMinWidth,bfPlanckMaxWidth,
+	                                             pa.bfPlanckMinThickness,pa.bfPlanckMaxThickness,pr.class,pr.bfProductCode,pa.formName
+	                                        FROM Pallets pa, Products pr 
+	                                        WHERE  timeStop IS NULL AND pa.bfProductCode=pr.bfProductCode;";
                 SqlCommand cmd = new SqlCommand(getOpenPallets, con);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.Out.WriteLine("Found open package with id "+reader["bfPalletId"]+" on position "+reader["formName"]);
+                   // Console.Out.WriteLine("Found open package with id "+reader["bfPalletId"]+" on position "+reader["formName"]);
+                    Pallet onePallet=new Pallet(reader["bfPalletId"].ToString(),
+                                        reader["bfSpecies"].ToString(),
+                                        UInt32.Parse(reader["bfMinLen"].ToString()),
+                                        UInt32.Parse(reader["bfMaxLen"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMinWidth"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMaxWidth"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMaxThickness"].ToString()),
+                                        0,
+                                        0,
+                                        reader["class"].ToString(),
+                                        reader["bfProductCode"].ToString(),
+                                        reader["formName"].ToString(),
+                                        true);
+                    onePallet.setGuid(reader["Id"].ToString());
+                    palletManager.addPallet(onePallet);
+
+                    String getPalletPlanks = "SELECT * FROM Plancks WHERE bfPalletId='" + reader["Id"] + "'";
+                    SqlCommand cmdListPlanks = new SqlCommand(getPalletPlanks, con);
+                    SqlDataReader readerPlancks = cmdListPlanks.ExecuteReader();
+                    while (readerPlancks.Read())
+                    {
+                      Planck onePlanck=new Planck(
+                          UInt32.Parse(readerPlancks["bfActualLength"].ToString()),
+                          UInt32.Parse(readerPlancks["bfActualLength"].ToString()),
+                          UInt32.Parse(readerPlancks["bfActualThickness"].ToString()),
+                          readerPlancks["bfQalClass"].ToString(),
+                          readerPlancks["bfPlanckId"].ToString(),
+                          onePallet.getGuid().ToString()
+                          );
+                      onePallet.addPlanck(onePlanck);
+                      Console.Out.WriteLine("Found one planck"+onePlanck.bfPalletId);
+                    }
+                    updatePallets(onePallet);
                 }
             }
+             
             //-----------------------------------------
 
         }
@@ -192,6 +232,7 @@ namespace WpfApplication1
               
                 if (selectedPallet != null)
                 {
+                    p.setOnPallet(selectedPallet.getGuid());
                     updatePallets(selectedPallet);
                     p.updateDatabase();
                     lungimeTB.Text = "";

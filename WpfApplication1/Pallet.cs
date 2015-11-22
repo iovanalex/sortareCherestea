@@ -33,11 +33,15 @@ namespace WpfApplication1
         uint bfPlanckMaxFlagThickness;
         String bfClass;
         String bfProductName;
-        String bfPalletGuid;
 
         public String getGuid()
         {
-            return bfPalletGuid;
+            return palletGuid;
+        }
+
+        public void setGuid(String gUid)
+        {
+            this.palletGuid = gUid;
         }
 
         public String getProductName()
@@ -45,9 +49,14 @@ namespace WpfApplication1
             return bfProductName;
         }
 
-        public Pallet(String palletId, String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minContractThickness, uint maxContractThickness, uint minFlagThickness, uint maxFlagThickness, String bfClass, String productName, String fName)
+        public Pallet(String palletId,  String species, uint minLen, uint maxLen, uint minWidth, uint maxWidth, uint minContractThickness, uint maxContractThickness, uint minFlagThickness, uint maxFlagThickness, String bfClass, String productName, String fName, bool recoverFromDatabase)
         {
-            palletGuid = Guid.NewGuid().ToString();
+            if (!recoverFromDatabase)
+            {
+                palletGuid = Guid.NewGuid().ToString();
+            }
+           
+            
             bfPalletId = palletId;
             bfSpecies = species;
             bfMinLen = minLen;
@@ -61,10 +70,12 @@ namespace WpfApplication1
             this.bfClass = bfClass;
             formName = fName;
             bfProductName = productName;
-            bfPalletGuid = Guid.NewGuid().ToString();
+
+            //------------------STORE PALLET DATA TO DB--------------------------
             //INSERT INTO Pallets('bfPalletId', 'bfSpecies', bfMinLen','bfMaxLen', 'bfPlankMinWidth', 'bfPlankMaxWidth', 'bfPlankMinThickness', 'bfPlankMaxThickness', 'formName', 'timeStart' VALUES ,fag,201,240,8,60,38,38,pallet19/11/2015 12:37:24 AM
-            
-            String InsertPalletQueryString = @"set dateformat dmy; INSERT INTO Pallets (
+            if (!recoverFromDatabase)
+            {
+                String InsertPalletQueryString = @"set dateformat dmy; INSERT INTO Pallets (
                     Id,
 					bfPalletId, 
 					bfSpecies, 
@@ -75,32 +86,35 @@ namespace WpfApplication1
 					bfPlanckMinThickness, 
 					bfPlanckMaxThickness, 
 					formName, 
-					timeStart) 
-					VALUES ('"+this.palletGuid+
-                              "','"+this.bfPalletId +
-                              "','"+this.bfSpecies+
-                              "','"+this.bfMinLen+
-                              "','"+this.bfMaxLen+
-                              "','"+this.bfPlanckMinWidth+
-                              "','"+this.bfPlanckMaxWidth+
-                              "','"+this.bfPlanckMinContractThickness+
-                              "','"+this.bfPlanckMaxContractThickness+
-                              "','"+this.formName+
-                              "','"+DateTime.Now+"')";
-            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(ConString))
-            {
-                con.Open();
-                Console.Out.WriteLine("Add new pallet query: " + InsertPalletQueryString);
-                SqlCommand cmd = new SqlCommand(InsertPalletQueryString, con);
-                cmd.ExecuteNonQuery();
-                Console.Out.WriteLine("INFO: Inserted Pallet: " + this.palletGuid);
+					timeStart,
+                    bfProductCode) 
+					VALUES ('" + this.palletGuid +
+                                  "','" + this.bfPalletId +
+                                  "','" + this.bfSpecies +
+                                  "','" + this.bfMinLen +
+                                  "','" + this.bfMaxLen +
+                                  "','" + this.bfPlanckMinWidth +
+                                  "','" + this.bfPlanckMaxWidth +
+                                  "','" + this.bfPlanckMinContractThickness +
+                                  "','" + this.bfPlanckMaxContractThickness +
+                                  "','" + this.formName +
+                                  "','" + DateTime.Now +
+                                  "','" + this.bfProductName + "')";
+                string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(ConString))
+                {
+                    con.Open();
+                    // Console.Out.WriteLine("Add new pallet query: " + InsertPalletQueryString);
+                    SqlCommand cmd = new SqlCommand(InsertPalletQueryString, con);
+                    cmd.ExecuteNonQuery();
+                    Console.Out.WriteLine("INFO: Inserted Pallet: " + this.palletGuid);
 
-                String updateLastPalletIdCommand = @"UPDATE Variabile 
-                                                        SET value='" + this.bfPalletId + 
-                                                     "' WHERE varName='lastPalletId'";
-                cmd = new SqlCommand(updateLastPalletIdCommand, con);
-                cmd.ExecuteNonQuery();
+                    String updateLastPalletIdCommand = @"UPDATE Variabile 
+                                                        SET value='" + this.bfPalletId +
+                                                         "' WHERE varName='lastPalletId'";
+                    cmd = new SqlCommand(updateLastPalletIdCommand, con);
+                    cmd.ExecuteNonQuery();
+                }
             }
             
         }
