@@ -134,6 +134,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppConfigStore.cs" />
+    <Compile Include="ClosedPallets.cs">
+      <DependentUpon>ClosedPallets.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ClosedPallets.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClosedPallets.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionSplashScreen.xaml.cs">
       <DependentUpon>ConnectionSplashScreen.xaml</DependentUpon>
     </Compile>
@@ -183,6 +192,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SortareCheresteaDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SortareCheresteaDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SortareCheresteaDataSet2.xsd</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Page Include="ConnectionSplashScreen.xaml">
@@ -241,7 +255,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Report1.rdlc" />
+    <EmbeddedResource Include="ClosedPalletsReport.rdlc" />
+    <None Include="ClosedPallets.xsc">
+      <DependentUpon>ClosedPallets.xsd</DependentUpon>
+    </None>
+    <None Include="ClosedPallets.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ClosedPallets.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ClosedPallets.xss">
+      <DependentUpon>ClosedPallets.xsd</DependentUpon>
+    </None>
     <None Include="DbPallets.dbml.layout">
       <DependentUpon>DbPallets.dbml</DependentUpon>
     </None>
@@ -295,6 +320,17 @@
     </None>
     <None Include="SortareCheresteaDataSet1.xss">
       <DependentUpon>SortareCheresteaDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="SortareCheresteaDataSet2.xsc">
+      <DependentUpon>SortareCheresteaDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="SortareCheresteaDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SortareCheresteaDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SortareCheresteaDataSet2.xss">
+      <DependentUpon>SortareCheresteaDataSet2.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

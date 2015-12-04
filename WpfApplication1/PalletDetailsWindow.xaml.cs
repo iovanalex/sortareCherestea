@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using System.Linq;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
