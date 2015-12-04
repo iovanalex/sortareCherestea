@@ -25,8 +25,12 @@ namespace WpfApplication1
     /// </summary>
     public partial class PalletDetailsWindow : Window
     {
-        public PalletDetailsWindow(Pallet p)
+        Pallet p = null;
+        PalletManager palletManager = null;
+        public PalletDetailsWindow(Pallet p,PalletManager palletManager)
         {
+            this.p = p;
+            this.palletManager = palletManager;
             InitializeComponent();
             bfPalletId.Text = p.bfPalletId;
             bfPlancks.Text = p.getPlanckCount().ToString();
@@ -51,6 +55,37 @@ namespace WpfApplication1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {   
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                con.Open();
+                String closePalletQuery = "UPDATE Pallets SET timeStop=GETDATE(), activePallet=0 WHERE bfPalletId='" + p.bfPalletId + "'";
+                Console.Out.WriteLine("Closing pallet " + closePalletQuery);
+                SqlCommand cmd = new SqlCommand(closePalletQuery, con);
+                cmd.ExecuteNonQuery();            
+              }
+            palletManager.removePallet(p);
+            this.Close();            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                con.Open();
+                String standbyPalletQuery = "UPDATE Pallets SET activePallet=0 WHERE bfPalletId='" + p.bfPalletId + "'";
+                Console.Out.WriteLine("Going on standby with pallet " + standbyPalletQuery);
+                Console.Out.WriteLine("Going on standby with pallet " + standbyPalletQuery);
+                SqlCommand cmd = new SqlCommand(standbyPalletQuery, con);
+                cmd.ExecuteNonQuery();
+            }
+            palletManager.removePallet(p);
+            this.Close();            
         }
     }
 }

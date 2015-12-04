@@ -9,9 +9,9 @@ namespace WpfApplication1
     public class Planck
     {
         public uint bfActualLength { get; private set; } //in cm
-        uint bfLengthClass;
+        uint bfLengthClass=0;
         public uint bfActualWidth { get; private set; } //in cm
-        public uint bfActualThickness { get; private set; } //in mm
+        public uint bfActualThickness { get; private set; } //in mm with tenthn of a mm
         uint bfThicknessClass;
         public String bfPlanckQalClass { get; private set; }
         
@@ -36,6 +36,11 @@ namespace WpfApplication1
 
             Console.Out.WriteLine("Created from DB planck with " + planckGuid);
         }
+
+        public void setLengthClass(uint bfLengthClassMin)
+        {
+            this.bfLengthClass = bfLengthClassMin;
+        } 
 
         public void setPallet(Pallet p)
         {
@@ -64,8 +69,18 @@ namespace WpfApplication1
         }
         public double getVolumeCCm()
         {
-            return (this.bfActualThickness/10.0) * this.bfActualWidth * this.bfActualLength;
+            if (this.bfPlanckQalClass == "A")
+            {
+                return (this.bfActualThickness / 100.0) * this.bfActualWidth * this.bfLengthClass;
+            }
+            else
+            {
+                return (this.bfActualThickness / 100.0) * this.bfActualWidth * this.bfActualLength;
+            }
         }
+
+
+        
 
         public void updateDatabase()
         {

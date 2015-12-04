@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 //using System.Windows.Media.Brush;
 
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -46,7 +46,7 @@ namespace WpfApplication1
                                                  pa.bfMaxLen,bfPlanckMinWidth,bfPlanckMaxWidth,
 	                                             pa.bfPlanckMinThickness,pa.bfPlanckMaxThickness,pr.class,pr.bfProductCode,pa.formName
 	                                        FROM Pallets pa, Products pr 
-	                                        WHERE  timeStop IS NULL AND pa.bfProductCode=pr.bfProductCode;";
+	                                        WHERE  activePallet=1 AND pa.bfProductCode=pr.bfProductCode;";
                 SqlCommand cmd = new SqlCommand(getOpenPallets, con);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -60,14 +60,15 @@ namespace WpfApplication1
                                         UInt32.Parse(reader["bfPlanckMaxWidth"].ToString()),
                                         UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
                                         UInt32.Parse(reader["bfPlanckMaxThickness"].ToString()),
-                                        0,
-                                        0,
+                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
                                         reader["class"].ToString(),
                                         reader["bfProductCode"].ToString(),
                                         reader["formName"].ToString(),
                                         true);
                     onePallet.setGuid(reader["Id"].ToString());
                     palletManager.addPallet(onePallet);
+                    Console.Out.WriteLine("loaded pallet " + onePallet.bfPalletId + "from database");
 
                     String getPalletPlanks = "SELECT * FROM Plancks WHERE bfPalletId='" + reader["Id"] + "'";
                     SqlCommand cmdListPlanks = new SqlCommand(getPalletPlanks, con);
@@ -76,7 +77,7 @@ namespace WpfApplication1
                     {
                       Planck onePlanck=new Planck(
                           UInt32.Parse(readerPlancks["bfActualLength"].ToString()),
-                          UInt32.Parse(readerPlancks["bfActualLength"].ToString()),
+                          UInt32.Parse(readerPlancks["bfActualWidth"].ToString()),
                           UInt32.Parse(readerPlancks["bfActualThickness"].ToString()),
                           readerPlancks["bfQalClass"].ToString(),
                           readerPlancks["bfPlanckId"].ToString(),
@@ -157,7 +158,7 @@ namespace WpfApplication1
                 }
                 if (thick > 0)
                 {
-                    this.grosimeTB.Text = Convert.ToString(thick);
+                    this.grosimeTB.Text = Convert.ToString((float)thick/10);
                 }
                 else
                 {
@@ -185,7 +186,8 @@ namespace WpfApplication1
 
         private void btSavePlanck_Click(object sender, RoutedEventArgs e)
         {
-            UInt16 measuredLength=0, measuredWidth=0, measuredThickness=0;
+            UInt16 measuredLength = 0, measuredWidth = 0;
+            uint measuredThickness = 0;
             String warnMsg = "";
             String qalClass="";
             
@@ -207,7 +209,8 @@ namespace WpfApplication1
 
             if ((grosimeTB.Text != "")&&(grosimeTB.Text!="N/A"))
             {
-                measuredThickness = UInt16.Parse(grosimeTB.Text);
+                //measuredThickness = UInt16.Parse((int)(grosimeTB.Text*10));
+                measuredThickness = (uint)(Double.Parse(grosimeTB.Text) * 10);
             }
             else{
                 warnMsg += "Atentie la grosime\n";
@@ -229,9 +232,11 @@ namespace WpfApplication1
             {
                 Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, qalClass);
                 Pallet selectedPallet = palletManager.addPlanck(p);
+                
               
                 if (selectedPallet != null)
                 {
+                    p.setLengthClass(selectedPallet.bfMinLen);
                     p.setOnPallet(selectedPallet.getGuid());
                     updatePallets(selectedPallet);
                     p.updateDatabase();
@@ -240,7 +245,7 @@ namespace WpfApplication1
                     grosimeTB.Text = "";
                     planckClass.Text = "";
                     
-                   // PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+                  //  PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
 
                     String coadaScanduri = selectedPallet.bfPalletId + "," + selectedPallet.getBfProductName() + "," + p.bfActualLength + "," + p.bfPlanckQalClass;
                     planckQueue.Items.Add(coadaScanduri);
@@ -277,11 +282,28 @@ namespace WpfApplication1
             lbBfProductName.Content = p.getBfProductName();
         }
 
+        public void removeUIPallet(Pallet p)
+        {
+            String formPalletName = p.getFormName();
+            Label lbPcs = (Label)FindName(formPalletName + "Pcs");
+            lbPcs.Content = "";
+
+            Label lbName = (Label)FindName(formPalletName + "bfId");
+            lbName.Content = "bfNull";
+
+            Label lbVolume = (Label)FindName(formPalletName + "Volume");
+            lbVolume.Content ="0 qbm";
+
+            Label lbBfProductName = (Label)FindName(formPalletName + "bfProductName");
+            lbBfProductName.Content = "Label";
+        }
+
         private void showPalletDetails(String formName){
             Pallet p = palletManager.getPalletByFromName(formName);
-            if ((p!=null)&&(p.getPlanckCount()!=0))
+            //if ((p!=null)&&(p.getPlanckCount()!=0))
+            if ((p != null))
             {
-                new PalletDetailsWindow(p).Show();
+                new PalletDetailsWindow(p,palletManager).Show();
             }
             else
             {

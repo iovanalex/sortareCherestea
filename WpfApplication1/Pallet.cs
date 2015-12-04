@@ -23,7 +23,7 @@ namespace WpfApplication1
 
         public String bfPalletId { get; private set; }
         public String bfSpecies { get; private set; }
-        uint bfMinLen;
+        public uint bfMinLen;
         uint bfMaxLen;
         uint bfPlanckMinWidth;
         uint bfPlanckMaxWidth;
@@ -121,10 +121,13 @@ namespace WpfApplication1
 
         public bool matchPlanck(Planck p)
         {
+            Console.Out.WriteLine(@"Checking planck " + p.bfActualLength + " against pallet " + this.bfPalletId+
+                " with length "+this.bfMinLen+" to "+this.bfMaxLen+
+                " and width "+this.bfPlanckMinWidth+" to "+this.bfPlanckMaxWidth+" and thickness "+this.bfPlanckMinFlagThickness+" to "+this.bfPlanckMaxFlagThickness);
             if (
                 ((bfMinLen <= p.bfActualLength) && (p.bfActualLength <= bfMaxLen)) &&
                 ((bfPlanckMinWidth <= p.bfActualWidth) && (p.bfActualWidth <= bfPlanckMaxWidth)) &&
-                ((bfPlanckMinContractThickness <= p.bfActualThickness) && (p.bfActualThickness <= bfPlanckMaxContractThickness)) &&
+                ((bfPlanckMinFlagThickness <= p.bfActualThickness/10) && (p.bfActualThickness/10 <= bfPlanckMaxFlagThickness)) &&
                 (bfClass == p.bfPlanckQalClass)
                 ) return true;
 

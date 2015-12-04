@@ -18,8 +18,8 @@
         <TextBox x:Name="bfPalletVolume" HorizontalAlignment="Left" Height="23" Margin="66,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Label Content="Pl. count:" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="bfPlancks" HorizontalAlignment="Left" Height="23" Margin="66,56,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Inchide palet" HorizontalAlignment="Left" Margin="66,237,0,0" VerticalAlignment="Top" Width="88" Height="35"/>
-        <Button Content="Stand-by" HorizontalAlignment="Left" Margin="159,237,0,0" VerticalAlignment="Top" Width="88" Height="35"/>
+        <Button Content="Inchide palet" HorizontalAlignment="Left" Margin="66,237,0,0" VerticalAlignment="Top" Width="88" Height="35" Click="Button_Click_1"/>
+        <Button Content="Stand-by" HorizontalAlignment="Left" Margin="159,237,0,0" VerticalAlignment="Top" Width="88" Height="35" Click="Button_Click_2"/>
         <Button Content="Iesire" HorizontalAlignment="Left" Margin="463,237,0,0" VerticalAlignment="Top" Width="88" Height="35" Click="Button_Click"/>
     </Grid>
 </Window>

@@ -83,6 +83,8 @@ namespace WpfApplication1
                     newPalletMaxWidth.Content = reader["maxWidth"];
                     newPalletMinThick.Content = reader["minThickness"];
                     newPalletMaxThick.Content = reader["maxThickness"];
+                    newPalletminContract.Content = reader["minContractThickness"];
+                    newPalletmaxContractThick.Content= reader["maxContractThickness"];
                     newPalletClass.Content = reader["class"];
                     newPalletSpecies.Content = reader["species"];
 
@@ -110,8 +112,8 @@ namespace WpfApplication1
                                     UInt32.Parse(newPalletMaxWidth.Content.ToString()),
                                     UInt32.Parse(newPalletMinThick.Content.ToString()),
                                     UInt32.Parse(newPalletMaxThick.Content.ToString()),
-                                    UInt32.Parse(newPalletMinThick.Content.ToString()),
-                                    UInt32.Parse(newPalletMaxThick.Content.ToString()),
+                                    UInt32.Parse(newPalletminContract.Content.ToString()),
+                                    UInt32.Parse(newPalletmaxContractThick.Content.ToString()),
                                     newPalletClass.Content.ToString(),
                                     bfProductsCb.SelectedItem.ToString(),
                                     formName,
