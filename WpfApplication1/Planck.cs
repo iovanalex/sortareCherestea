@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
 namespace WpfApplication1
 {
     public class Planck
@@ -34,7 +38,7 @@ namespace WpfApplication1
             this.planckGuid = planckGuid;
             this.bfPalletId = bfPalletId;
 
-            Console.Out.WriteLine("Created from DB planck with " + planckGuid);
+           // Console.Out.WriteLine("Created from DB planck with " + planckGuid);
         }
 
         public void setLengthClass(uint bfLengthClassMin)
@@ -61,7 +65,7 @@ namespace WpfApplication1
             this.bfActualThickness = thickness;
             this.bfPlanckQalClass = qalClass;
            
-            Console.Out.WriteLine("Created orginal planck with " + planckGuid);
+           // Console.Out.WriteLine("Created orginal planck with " + planckGuid);
         }
 
         public void setOnPallet(String bfPalletId){
@@ -79,6 +83,32 @@ namespace WpfApplication1
             }
         }
 
+        public double getVolumeCCm(Pallet pallet)
+        {
+            if (this.bfPlanckQalClass == "A")
+            {
+                return (pallet.getMinContractThickness()) * this.bfActualWidth * this.bfLengthClass;
+            }
+            else
+            {
+                return (pallet.getMinContractThickness()) * this.bfActualWidth * this.bfActualLength;
+            }
+
+        }
+
+
+        public void detelePlanckFromDatabase(Planck p)
+        {
+            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(ConString))
+            {
+                con.Open();
+                String deletePlanckQuery = @"DELETE FROM Plancks WHERE bfPlanckId='"+p.planckGuid+"'";
+                SqlCommand cmd = new SqlCommand(deletePlanckQuery, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
 
         
 
@@ -97,7 +127,7 @@ namespace WpfApplication1
 
             dbPlancks.timeStamp = DateTime.Now;
 
-            Console.Out.WriteLine("Inserting " +this.planckGuid);
+           // Console.Out.WriteLine("Inserting " +this.planckGuid);
 
             try
             {

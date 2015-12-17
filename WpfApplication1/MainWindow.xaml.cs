@@ -23,11 +23,15 @@ namespace WpfApplication1
         PalletManager palletManager;
         Control focusedControl;
         bool manualDataInput = false;
+        bool ultimaStearsa = true;
 
 
         public MainWindow()
         {
+           
             InitializeComponent();
+            measurementWindow mw = new measurementWindow("ASTEAPTA!!!\nSe incarca", false);
+            mw.Show();
             bw.WorkerReportsProgress = true;
             bw.DoWork += new DoWorkEventHandler(do_work);
             bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
@@ -60,15 +64,15 @@ namespace WpfApplication1
                                         UInt32.Parse(reader["bfPlanckMaxWidth"].ToString()),
                                         UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
                                         UInt32.Parse(reader["bfPlanckMaxThickness"].ToString()),
-                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
-                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString()),
+                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString())-2,
+                                        UInt32.Parse(reader["bfPlanckMinThickness"].ToString())+4,
                                         reader["class"].ToString(),
                                         reader["bfProductCode"].ToString(),
                                         reader["formName"].ToString(),
                                         true);
                     onePallet.setGuid(reader["Id"].ToString());
                     palletManager.addPallet(onePallet);
-                    Console.Out.WriteLine("loaded pallet " + onePallet.bfPalletId + "from database");
+                   // Console.Out.WriteLine("loaded pallet " + onePallet.bfPalletId + "from database with thickness" +onePallet.getMinFlag()+" to "+onePallet.getMaxFlag());
 
                     String getPalletPlanks = "SELECT * FROM Plancks WHERE bfPalletId='" + reader["Id"] + "'";
                     SqlCommand cmdListPlanks = new SqlCommand(getPalletPlanks, con);
@@ -84,10 +88,12 @@ namespace WpfApplication1
                           onePallet.getGuid().ToString()
                           );
                       onePallet.addPlanck(onePlanck);
-                      Console.Out.WriteLine("Found one planck"+onePlanck.bfPalletId);
+                      //Console.Out.WriteLine("Found one planck"+onePlanck.bfPalletId);
                     }
                     updatePallets(onePallet);
                 }
+                con.Close();
+                mw.Close();
             }
              
             //-----------------------------------------
@@ -146,6 +152,7 @@ namespace WpfApplication1
             //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
             if (manualDataInput == false)
             {
+                latimeTB.Focus();
                 UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
                 UInt16 thick = PlcDb.Instance.readGrosime("192.168.0.10");
                 if (len > 0)
@@ -186,75 +193,91 @@ namespace WpfApplication1
 
         private void btSavePlanck_Click(object sender, RoutedEventArgs e)
         {
-            UInt16 measuredLength = 0, measuredWidth = 0;
-            uint measuredThickness = 0;
-            String warnMsg = "";
-            String qalClass="";
-            
-            if ((lungimeTB.Text != "")&&(lungimeTB.Text!="N/A"))
+            try
             {
-                measuredLength = UInt16.Parse(lungimeTB.Text);
-            }
-            else {
-                warnMsg += "Atentie la lungime\n";
-            }
+                UInt16 measuredLength = 0, measuredWidth = 0;
+                uint measuredThickness = 0;
+                String warnMsg = "";
+                String qalClass = "";
 
-            if ((latimeTB.Text != "")&&(latimeTB.Text!="N/A"))
-            {
-                measuredWidth = UInt16.Parse(latimeTB.Text);
-            }
-            else{
-                warnMsg += "Atentie la latime\n";
-            }
-
-            if ((grosimeTB.Text != "")&&(grosimeTB.Text!="N/A"))
-            {
-                //measuredThickness = UInt16.Parse((int)(grosimeTB.Text*10));
-                measuredThickness = (uint)(Double.Parse(grosimeTB.Text) * 10);
-            }
-            else{
-                warnMsg += "Atentie la grosime\n";
-            }
-            if (planckClass.Text!="")
-            {
-               qalClass=planckClass.Text;
-            }
-            else
-            {
-                warnMsg += "NU ati selectat clasa de calitate\n";
-            }
-
-            if (warnMsg != "")
-            {
-                new measurementWindow(warnMsg, lungimeTB, this).Show();
-            }
-            else
-            {
-                Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, qalClass);
-                Pallet selectedPallet = palletManager.addPlanck(p);
-                
-              
-                if (selectedPallet != null)
+                if ((lungimeTB.Text != "") && (lungimeTB.Text != "N/A"))
                 {
-                    p.setLengthClass(selectedPallet.bfMinLen);
-                    p.setOnPallet(selectedPallet.getGuid());
-                    updatePallets(selectedPallet);
-                    p.updateDatabase();
-                    lungimeTB.Text = "";
-                    latimeTB.Text = "";
-                    grosimeTB.Text = "";
-                    planckClass.Text = "";
-                    
-                  //  PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
-
-                    String coadaScanduri = selectedPallet.bfPalletId + "," + selectedPallet.getBfProductName() + "," + p.bfActualLength + "," + p.bfPlanckQalClass;
-                    planckQueue.Items.Add(coadaScanduri);
-                    manualDataInput = false;
+                    measuredLength = UInt16.Parse(lungimeTB.Text);
                 }
                 else
                 {
-                    new measurementWindow("Scandura nu a fost potrivita la nici un palet\nVerificati dimensiunile", lungimeTB, this).Show();
+                    warnMsg += "Atentie la lungime\n";
                 }
+
+                if ((latimeTB.Text != "") && (latimeTB.Text != "N/A"))
+                {
+                    measuredWidth = UInt16.Parse(latimeTB.Text);
+                }
+                else
+                {
+                    warnMsg += "Atentie la latime\n";
+                }
+
+                if ((grosimeTB.Text != "") && (grosimeTB.Text != "N/A"))
+                {
+                    //measuredThickness = UInt16.Parse((int)(grosimeTB.Text*10));
+                    measuredThickness = (uint)(Double.Parse(grosimeTB.Text) * 10);
+                }
+                else
+                {
+                    warnMsg += "Atentie la grosime\n";
+                }
+                if (planckClass.Text != "")
+                {
+                    qalClass = planckClass.Text;
+                }
+                else
+                {
+                    warnMsg += "NU ati selectat clasa de calitate\n";
+                }
+
+                if (warnMsg != "")
+                {
+                    new measurementWindow(warnMsg, lungimeTB, this).ShowDialog();
+                }
+                else
+                {
+                    Planck p = new Planck(measuredLength, measuredWidth, measuredThickness, qalClass);
+                    Pallet selectedPallet = palletManager.addPlanck(p);
+
+
+                    if (selectedPallet != null)
+                    {
+                        p.setLengthClass(selectedPallet.bfMinLen);
+                        p.setOnPallet(selectedPallet.getGuid());
+                        updatePallets(selectedPallet);
+                        p.updateDatabase();
+                        lungimeTB.Text = "";
+                        latimeTB.Text = "";
+                        grosimeTB.Text = "";
+                        planckClass.Text = "";
+
+                        PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
+
+                        String coadaScanduri = selectedPallet.getBfProductName();
+                        if (planckQueue.Items.Count >= 4)
+                        {
+                            planckQueue.Items.RemoveAt(planckQueue.Items.Count - 1);
+                        }
+                        //planckQueue.Items.Add(coadaScanduri);
+                        planckQueue.Items.Insert(0, coadaScanduri);
+                        manualDataInput = false;
+                        ultimaStearsa = false;
+                    }
+                    else
+                    {
+                        new measurementWindow("Scandura nu a fost potrivita la nici un palet\nVerificati dimensiunile", lungimeTB, this).ShowDialog();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                new measurementWindow("A aparut o exceptie\n" + ex.StackTrace).ShowDialog();
             }
         }
 
@@ -263,8 +286,6 @@ namespace WpfApplication1
             planckClass.Text = "A";
             planckClass.Background = btClassA.Background;
         }
-
-      
 
         public void updatePallets(Pallet p)
         {
@@ -303,11 +324,11 @@ namespace WpfApplication1
             //if ((p!=null)&&(p.getPlanckCount()!=0))
             if ((p != null))
             {
-                new PalletDetailsWindow(p,palletManager).Show();
+                new PalletDetailsWindow(p,palletManager).ShowDialog();
             }
             else
             {
-                new NewPalletWindow(formName, palletManager).Show();
+                new NewPalletWindow(formName, palletManager).ShowDialog();
             }
         }
 
@@ -340,13 +361,17 @@ namespace WpfApplication1
         private void kpd1_Copy8_Click(object sender, RoutedEventArgs e)
         {
             TextBox component = (TextBox)focusedControl;
-            Console.Out.WriteLine("Current component is " + component.Name);
+           // Console.Out.WriteLine("Current component is " + component.Name);
             if (component.Text.Length <= 1) component.Text = "";
             else
             {
-                UInt16 width = UInt16.Parse(component.Text);
-                width /= 10;
-                component.Text = Convert.ToString(width);
+                String value = component.Text;
+                value=value.Remove(value.Length - 1);
+                component.Text = value;
+                //UInt16 width = UInt16.Parse(component.Text);
+                //Double width = Double.Parse(component.Text);
+                //width /= 10;
+                //component.Text = Convert.ToString(width);
             }
         }
 
@@ -426,7 +451,7 @@ namespace WpfApplication1
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             Settings settingsWin = new Settings();
-            settingsWin.Show();
+            settingsWin.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -450,29 +475,45 @@ namespace WpfApplication1
 
         private void btPornire_Click(object sender, RoutedEventArgs e)
         {
+            btPornire.IsEnabled = false;
+            Window win = new measurementWindow("Initializare sistem");
+            win.ShowDialog();
             //  ConnectionSplashScreen css = new ConnectionSplashScreen();
             //  css.ShowDialog();
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            // PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
-            // System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
-            System.Threading.Thread.Sleep(500);
-            
-            Console.Out.WriteLine("Am initializat sistemul");
-            // css.Close();
-            ArrayList pallets = palletManager.getPallets();
-            foreach (Pallet p in pallets)
+            try
             {
-                updatePallets(p);
-            }
-            bw.RunWorkerAsync();
+                //System.Threading.Thread.Sleep(500);
+                if (PlcDb.Instance.PLC_Connect_Handler("192.168.0.10") == true)
+                {
+                    System.Threading.Thread.Sleep(500);
+                    PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
+                    System.Threading.Thread.Sleep(500);
+                    // PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
+                    // System.Threading.Thread.Sleep(500);
+                    PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
+                    System.Threading.Thread.Sleep(500);
+                    PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
+                    System.Threading.Thread.Sleep(500);
 
+                    Console.Out.WriteLine("Am initializat sistemul");
+                    // css.Close();
+                    ArrayList pallets = palletManager.getPallets();
+                    foreach (Pallet p in pallets)
+                    {
+                        updatePallets(p);
+                    }
+                    bw.RunWorkerAsync();
+                    win.Close();
+                }
+                else
+                {
+                    new measurementWindow("Nu m-am conectat la PLC").ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                new measurementWindow("O exceptie oarecare\nSe poate IGNORA\n"+ex.StackTrace).ShowDialog();
+            }
         }
 
         private void latimeTB_GotFocus(object sender, RoutedEventArgs e)
@@ -493,7 +534,12 @@ namespace WpfApplication1
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Chiar doriti sa iesiti din aplicatie?", "Iesire", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                this.Close();
+            
+            }
         }
 
         private void btRapoarte_Click(object sender, RoutedEventArgs e)
@@ -584,10 +630,31 @@ namespace WpfApplication1
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Planck latest = palletManager.getLatest();
-            manualDataInput = true;
-           // lungimeTB.Text = UInt32.Parse(latest.bfActualLength);
-           // latimeTB=latest.bfActualWidth
+            if (ultimaStearsa == false)
+            {
+                try
+                {
+                    Planck latest = palletManager.getLatest();
+                    MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Doriti sa stergeti?", "Confirmare stergere", System.Windows.MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        latest.detelePlanckFromDatabase(latest);
+                        palletManager.removePlanck(latest);
+                        planckQueue.Items.RemoveAt(0);
+                        // manualDataInput = true;
+                        // lungimeTB.Text = UInt32.Parse(latest.bfActualLength.ToString()).ToString();
+                        // latimeTB.Text = UInt32.Parse(latest.bfActualWidth.ToString()).ToString();
+                        // grosimeTB.Text = UInt32.Parse(latest.bfActualThickness.ToString()).ToString();
+                        // grosimeTB.Text = (Double.Parse(grosimeTB.Text) / 10).ToString();
+                        ultimaStearsa = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    new measurementWindow("O exceptie a aparut\n" + ex.StackTrace).ShowDialog();
+                }
+            }
+            
         }
 
 

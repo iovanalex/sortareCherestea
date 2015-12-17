@@ -11,7 +11,8 @@ namespace WpfApplication1
     {
         ArrayList pallets = new ArrayList();
        
-        Stack<Planck> planckStack = new Stack<Planck>(5);
+      //  Stack<Planck> planckStack = new Stack<Planck>(5);
+        Queue<Planck> planckQueue = new Queue<Planck>(5);
         MainWindow mainWin;
 
         public PalletManager(MainWindow w)
@@ -25,6 +26,18 @@ namespace WpfApplication1
             mainWin.updatePallets(p);
         }
 
+        public void removePlanck(Planck planck)
+        {
+            foreach (Pallet pallet in pallets)
+            {
+                if (pallet.containsPlanck(planck))
+                {
+                    pallet.removePlanck(planck);
+                    mainWin.updatePallets(pallet);
+                }
+            }
+        }
+
         public Pallet addPlanck(Planck p)
         {
             foreach (Pallet pallet in pallets)
@@ -36,7 +49,14 @@ namespace WpfApplication1
                     p.selectedPalletGuid = pallet.getGuid();
                     p.bfPalletId = pallet.getGuid();
                     mainWin.updatePallets(pallet);
-                    planckStack.Push(p);
+
+                    if (planckQueue.Count >= 5)
+                    {
+                        planckQueue.Dequeue();
+                    }
+
+                    //planckStack.Push(p);
+                    planckQueue.Enqueue(p);
                     return pallet;
                 }
             }
@@ -61,28 +81,7 @@ namespace WpfApplication1
         }
         public Planck getLatest()
         {
-            bool gasit = false;
-
-            if (planckStack.Any())
-            {
-                Planck latest = planckStack.Peek();
-                foreach (Pallet pal in pallets)
-                {
-                    if (pal.contains(latest))
-                    {
-                        gasit = true;
-                        break;
-                    }
-                }
-            }
-            if (gasit)
-            {
-                return planckStack.Pop();
-            }
-            else
-            {
-                return null;
-            }
+            return planckQueue.Last();
         }
 
         public void removePallet(Pallet p)
@@ -100,7 +99,7 @@ namespace WpfApplication1
         public void clearEverithing()
         {
             pallets.Clear();
-            planckStack.Clear();
+            planckQueue.Clear();
         }
     }
 }

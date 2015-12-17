@@ -54,7 +54,7 @@ namespace WpfApplication1
             }
             reader0.Close();
             
-            String productsQuery = "SELECT bfProductCode FROM Products";
+            String productsQuery = "SELECT bfProductCode FROM Products ORDER BY Id DESC";
             SqlCommand cmd = new SqlCommand(productsQuery, con);
             SqlDataReader DR = cmd.ExecuteReader();
             while (DR.Read())
@@ -101,26 +101,33 @@ namespace WpfApplication1
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //Pallet p1 = new Pallet("1700", "St", 160, 190, 1, 100, 30, 42, 35, 55, "A", "1700", "pallet1");
-            if (palletIdText.Content != null)
+            try
             {
+                if ((palletIdText.Content != null) && (newPalletMinLen.Content.ToString()!= ""))
+                {
 
-                Pallet p = new Pallet(palletIdText.Content.ToString(),
-                                    newPalletSpecies.Content.ToString(),
-                                    UInt32.Parse(newPalletMinLen.Content.ToString()),
-                                    UInt32.Parse(newPalletMaxLen.Content.ToString()),
-                                    UInt32.Parse(newPalletMinWidth.Content.ToString()),
-                                    UInt32.Parse(newPalletMaxWidth.Content.ToString()),
-                                    UInt32.Parse(newPalletMinThick.Content.ToString()),
-                                    UInt32.Parse(newPalletMaxThick.Content.ToString()),
-                                    UInt32.Parse(newPalletminContract.Content.ToString()),
-                                    UInt32.Parse(newPalletmaxContractThick.Content.ToString()),
-                                    newPalletClass.Content.ToString(),
-                                    bfProductsCb.SelectedItem.ToString(),
-                                    formName,
-                                    false //it's not recovered from DB, but created newly
-                                    );
-                pm.addPallet(p);
-                this.Close();
+                    Pallet p = new Pallet(palletIdText.Content.ToString(),
+                                        newPalletSpecies.Content.ToString(),
+                                        UInt32.Parse(newPalletMinLen.Content.ToString()),
+                                        UInt32.Parse(newPalletMaxLen.Content.ToString()),
+                                        UInt32.Parse(newPalletMinWidth.Content.ToString()),
+                                        UInt32.Parse(newPalletMaxWidth.Content.ToString()),
+                                        UInt32.Parse(newPalletMinThick.Content.ToString()),
+                                        UInt32.Parse(newPalletMaxThick.Content.ToString()),
+                                        UInt32.Parse(newPalletminContract.Content.ToString()),
+                                        UInt32.Parse(newPalletmaxContractThick.Content.ToString()),
+                                        newPalletClass.Content.ToString(),
+                                        bfProductsCb.SelectedItem.ToString(),
+                                        formName,
+                                        false //it's not recovered from DB, but created newly
+                                        );
+                    pm.addPallet(p);
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                new measurementWindow(ex.StackTrace).ShowDialog();
             }
         }
     }

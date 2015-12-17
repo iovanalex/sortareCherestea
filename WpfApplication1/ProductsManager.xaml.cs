@@ -87,7 +87,8 @@ namespace WpfApplication1
 
                 }
                 reader.Close();
-            }            
+            }
+            con.Close();
         }
     }
 }

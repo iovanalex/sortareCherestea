@@ -25,15 +25,27 @@ namespace WpfApplication1
         public measurementWindow(String text, TextBox fieldWarning, Window w)
         {
             InitializeComponent();
-            warnText.Content = text;
+            warnText.Text = text;
             parentFieldWarn = fieldWarning;
             parentWin = w;
+        }
+
+        public measurementWindow(String text, bool closeOK)
+        {
+            InitializeComponent();
+            warnText.Text = text;
+            parentFieldWarn = null;
+            parentWin = null;
+            if (closeOK == false)
+            {
+                closeButton.IsEnabled = false;
+            }
         }
 
         public measurementWindow(String text)
         {
             InitializeComponent();
-            warnText.Content = text;
+            warnText.Text = text;
             parentFieldWarn = null;
             parentWin = null;
         }

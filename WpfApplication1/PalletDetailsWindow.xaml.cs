@@ -58,17 +58,22 @@ namespace WpfApplication1
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {   
-            string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(ConString))
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Chiar doriti sa inchideti paletul?", "Confirmare inchidere", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
-                con.Open();
-                String closePalletQuery = "UPDATE Pallets SET timeStop=GETDATE(), activePallet=0 WHERE bfPalletId='" + p.bfPalletId + "'";
-                Console.Out.WriteLine("Closing pallet " + closePalletQuery);
-                SqlCommand cmd = new SqlCommand(closePalletQuery, con);
-                cmd.ExecuteNonQuery();            
-              }
-            palletManager.removePallet(p);
-            this.Close();            
+                string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(ConString))
+                {
+                    con.Open();
+                    String closePalletQuery = "UPDATE Pallets SET timeStop=GETDATE(), activePallet=0 WHERE bfPalletId='" + p.bfPalletId + "'";
+                    Console.Out.WriteLine("Closing pallet " + closePalletQuery);
+                    SqlCommand cmd = new SqlCommand(closePalletQuery, con);
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                palletManager.removePallet(p);
+                this.Close();
+            }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -79,9 +84,10 @@ namespace WpfApplication1
                 con.Open();
                 String standbyPalletQuery = "UPDATE Pallets SET activePallet=0 WHERE bfPalletId='" + p.bfPalletId + "'";
                 Console.Out.WriteLine("Going on standby with pallet " + standbyPalletQuery);
-                Console.Out.WriteLine("Going on standby with pallet " + standbyPalletQuery);
+               
                 SqlCommand cmd = new SqlCommand(standbyPalletQuery, con);
                 cmd.ExecuteNonQuery();
+                con.Close();
             }
             palletManager.removePallet(p);
             this.Close();            

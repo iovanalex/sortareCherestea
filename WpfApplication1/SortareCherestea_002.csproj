@@ -166,7 +166,17 @@
       <DependentUpon>PalletDetailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PalletManager.cs" />
+    <Compile Include="PalletPacking.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PalletPacking.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Planck.cs" />
+    <Compile Include="ProductionStats.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductionStats.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ProductsManager.xaml.cs">
       <DependentUpon>ProductsManager.xaml</DependentUpon>
     </Compile>
@@ -256,6 +266,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="ClosedPalletsReport.rdlc" />
+    <EmbeddedResource Include="PackingReport.rdlc" />
     <None Include="ClosedPallets.xsc">
       <DependentUpon>ClosedPallets.xsd</DependentUpon>
     </None>
@@ -276,6 +287,7 @@
     <EmbeddedResource Include="DbPlanks.dbml.views_def.layout">
       <DependentUpon>DbPlanks.dbml</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProductionReport.rdlc" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -294,6 +306,28 @@
       <DependentUpon>DbPlanks.dbml</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="PalletPacking.xsc">
+      <DependentUpon>PalletPacking.xsd</DependentUpon>
+    </None>
+    <None Include="PalletPacking.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PalletPacking.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="PalletPacking.xss">
+      <DependentUpon>PalletPacking.xsd</DependentUpon>
+    </None>
+    <None Include="ProductionStats.xsc">
+      <DependentUpon>ProductionStats.xsd</DependentUpon>
+    </None>
+    <None Include="ProductionStats.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ProductionStats.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ProductionStats.xss">
+      <DependentUpon>ProductionStats.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -336,11 +370,6 @@
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app_config.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

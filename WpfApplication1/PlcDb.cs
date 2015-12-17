@@ -498,16 +498,17 @@ namespace WpfApplication1
             Client.DBWrite(100, 18, 1, b18);
         }
 
-        public void PLC_Connect_Handler(String ip){
-             int Rack = 0, Slot = 0; // default for S71200
-             Client = new S7Client();
-             Completion = new S7Client.S7CliCompletion(CompletionProc);
-             Client.SetAsCallBack(Completion, IntPtr.Zero);
-             if (PlcConnect(ip, Rack, Slot))
-             {
-                 POS_Connect();
-                 Client.Disconnect();
-             }
+        public bool PLC_Connect_Handler(String ip){
+            int Rack = 0, Slot = 0; // default for S71200
+            Client = new S7Client();
+            Completion = new S7Client.S7CliCompletion(CompletionProc);
+            Client.SetAsCallBack(Completion, IntPtr.Zero);
+            if (PlcConnect(ip, Rack, Slot))
+            {
+                POS_Connect();
+                Client.Disconnect();
+            }
+            return true;
        // Summary();
         }
         public void PLC_Disconnect_Handler(String ip)
@@ -563,7 +564,7 @@ namespace WpfApplication1
                 POS_Manual();
                 Client.Disconnect();
             }
-            // Summary();
+           
         }
 
         public void PLC_Start_Handler(String ip)
@@ -577,7 +578,7 @@ namespace WpfApplication1
                 POS_Start();
                 Client.Disconnect();
             }
-            // Summary();
+            
         }
 
         public void PLC_NextPlanck_Handler(String ip)
@@ -590,6 +591,10 @@ namespace WpfApplication1
             {
                 POS_NextPlanck();
                 Client.Disconnect();
+            }
+            else
+            {
+                new measurementWindow("Eroare comanda opritor").Show();
             }
             // Summary();
         }

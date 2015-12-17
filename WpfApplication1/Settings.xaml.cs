@@ -15,6 +15,7 @@ using System.Threading;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Reporting.WinForms;
+using System.Configuration;
 
 namespace WpfApplication1
 {
@@ -26,12 +27,13 @@ namespace WpfApplication1
         public Settings()
         {
             InitializeComponent();
+        //    Console.Out.WriteLine("Loaded config IP" + PlcIp);
         }
 
         private void PLC_Disconnect_click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Disconnect_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat disconnected");
+        //    Console.Out.WriteLine("Terminat disconnected");
             AppConfigStore.connectedPlc = false;
             AppConfigStore.running = false;
         }
@@ -39,14 +41,14 @@ namespace WpfApplication1
         private void PLC_Connect_click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Connect_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat connected");
+        //    Console.Out.WriteLine("Terminat connected");
             AppConfigStore.connectedPlc = true;
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Reset_Handler("192.168.0.10");
-            Console.Out.WriteLine("Terminat connected");
+        //    Console.Out.WriteLine("Terminat connected");
 
         }
 
@@ -54,28 +56,28 @@ namespace WpfApplication1
         private void manual_click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Manual_Handler("192.168.0.10");
-            Console.Out.WriteLine("Manual connected");
+         //   Console.Out.WriteLine("Manual connected");
             AppConfigStore.autoManual = "Manual";
         }
 
         private void auto_click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Auto_Handler("192.168.0.10");
-            Console.Out.WriteLine("Auto sent");
+         //   Console.Out.WriteLine("Auto sent");
             AppConfigStore.autoManual = "Auto";
         }
 
         private void start_handler(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_Start_Handler("192.168.0.10");
-            Console.Out.WriteLine("Start sent");
+         //   Console.Out.WriteLine("Start sent");
             AppConfigStore.running = true;
         }
 
         private void nextPlanck_click(object sender, RoutedEventArgs e)
         {
             PlcDb.Instance.PLC_NextPlanck_Handler("192.168.0.10");
-            Console.Out.WriteLine("Next planck sent");
+         //   Console.Out.WriteLine("Next planck sent");
         }
 
         private void btInchideSettings_Click(object sender, RoutedEventArgs e)
