@@ -102,7 +102,8 @@ namespace WpfApplication1
             //INSERT INTO Pallets('bfPalletId', 'bfSpecies', bfMinLen','bfMaxLen', 'bfPlankMinWidth', 'bfPlankMaxWidth', 'bfPlankMinThickness', 'bfPlankMaxThickness', 'formName', 'timeStart' VALUES ,fag,201,240,8,60,38,38,pallet19/11/2015 12:37:24 AM
             if (!recoverFromDatabase)
             {
-                String InsertPalletQueryString = @"set dateformat mdy; INSERT INTO Pallets (
+                String InsertPalletQueryString = @"
+                    INSERT INTO Pallets (
                     Id,
 					bfPalletId, 
 					bfSpecies, 

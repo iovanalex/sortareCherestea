@@ -89,6 +89,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.SqlServer.Types.11.0.2\lib\net20\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.2.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -159,6 +162,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DbPlanks.dbml</DependentUpon>
     </Compile>
+    <Compile Include="ExternalScreenQueue.xaml.cs">
+      <DependentUpon>ExternalScreenQueue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainFormInputException.cs" />
     <Compile Include="Pallet.cs" />
     <Compile Include="IniFileIO.cs" />
@@ -210,6 +216,10 @@
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Page Include="ConnectionSplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExternalScreenQueue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -278,6 +288,7 @@
     <None Include="ClosedPallets.xss">
       <DependentUpon>ClosedPallets.xsd</DependentUpon>
     </None>
+    <Resource Include="code128.ttf" />
     <None Include="DbPallets.dbml.layout">
       <DependentUpon>DbPallets.dbml</DependentUpon>
     </None>

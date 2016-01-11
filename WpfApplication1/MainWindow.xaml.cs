@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
+
 namespace WpfApplication1
 {
     /// <summary>
@@ -19,6 +20,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        ExternalScreenQueue externalScreen;
         BackgroundWorker bw = new BackgroundWorker();
         PalletManager palletManager;
         Control focusedControl;
@@ -95,7 +97,17 @@ namespace WpfApplication1
                 con.Close();
                 mw.Close();
             }
-             
+            //-----------------------------------------
+            externalScreen = new ExternalScreenQueue();
+            externalScreen.WindowState = System.Windows.WindowState.Normal;
+            externalScreen.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+
+            System.Windows.Forms.Screen s1 = System.Windows.Forms.Screen.AllScreens[1];
+            System.Drawing.Rectangle r1 = s1.WorkingArea;
+            externalScreen.Top = r1.Top;
+            externalScreen.Left = r1.Left;
+            externalScreen.Show();
+            externalScreen.WindowState = System.Windows.WindowState.Maximized;
             //-----------------------------------------
 
         }
@@ -263,9 +275,11 @@ namespace WpfApplication1
                         if (planckQueue.Items.Count >= 4)
                         {
                             planckQueue.Items.RemoveAt(planckQueue.Items.Count - 1);
+                            externalScreen.removeLast();                            
                         }
                         //planckQueue.Items.Add(coadaScanduri);
                         planckQueue.Items.Insert(0, coadaScanduri);
+                        externalScreen.addTop(coadaScanduri);
                         manualDataInput = false;
                         ultimaStearsa = false;
                     }
@@ -537,8 +551,8 @@ namespace WpfApplication1
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Chiar doriti sa iesiti din aplicatie?", "Iesire", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
+                externalScreen.Close();
                 this.Close();
-            
             }
         }
 
@@ -641,6 +655,7 @@ namespace WpfApplication1
                         latest.detelePlanckFromDatabase(latest);
                         palletManager.removePlanck(latest);
                         planckQueue.Items.RemoveAt(0);
+
                         // manualDataInput = true;
                         // lungimeTB.Text = UInt32.Parse(latest.bfActualLength.ToString()).ToString();
                         // latimeTB.Text = UInt32.Parse(latest.bfActualWidth.ToString()).ToString();
