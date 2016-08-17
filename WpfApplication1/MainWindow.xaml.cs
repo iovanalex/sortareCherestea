@@ -97,19 +97,24 @@ namespace WpfApplication1
                 con.Close();
                 mw.Close();
             }
-            //-----------------------------------------
+            //-----------------------------------------       
+            
+            Console.Out.WriteLine("Avem conectate " + System.Windows.Forms.Screen.AllScreens.Length + " ecrane");
             externalScreen = new ExternalScreenQueue();
-            externalScreen.WindowState = System.Windows.WindowState.Normal;
-            externalScreen.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
-
-            System.Windows.Forms.Screen s1 = System.Windows.Forms.Screen.AllScreens[1];
-            System.Drawing.Rectangle r1 = s1.WorkingArea;
-            externalScreen.Top = r1.Top;
-            externalScreen.Left = r1.Left;
-            externalScreen.Show();
-            externalScreen.WindowState = System.Windows.WindowState.Maximized;
+            if (System.Windows.Forms.Screen.AllScreens.Length > 1)
+            {
+               
+                externalScreen.WindowState = System.Windows.WindowState.Normal;
+                externalScreen.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+                System.Windows.Forms.Screen s1 = System.Windows.Forms.Screen.AllScreens[2];
+                System.Drawing.Rectangle r1 = s1.WorkingArea;
+                externalScreen.Top = r1.Top;
+                externalScreen.Left = r1.Left;
+                externalScreen.Show();
+                externalScreen.WindowState = System.Windows.WindowState.Maximized;
+            }
             //-----------------------------------------
-
+            
         }
         
       
@@ -162,7 +167,7 @@ namespace WpfApplication1
             }
 
             //this.lungimeTB.Text = (e.ProgressPercentage.ToString() );
-            if (manualDataInput == false)
+            if ((manualDataInput == false)||(AppConfigStore.autoManual=="Auto"))
             {
                 latimeTB.Focus();
                 UInt16 len = PlcDb.Instance.readLungime("192.168.0.10");
@@ -175,6 +180,7 @@ namespace WpfApplication1
                 {
                     this.lungimeTB.Text = "N/A";
                 }
+
                 if (thick > 0)
                 {
                     this.grosimeTB.Text = Convert.ToString((float)thick/10);
@@ -518,6 +524,7 @@ namespace WpfApplication1
                     }
                     bw.RunWorkerAsync();
                     win.Close();
+                    btPornire.IsEnabled = false;
                 }
                 else
                 {
@@ -551,7 +558,9 @@ namespace WpfApplication1
             MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Chiar doriti sa iesiti din aplicatie?", "Iesire", System.Windows.MessageBoxButton.YesNo);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
+
                 externalScreen.Close();
+                
                 this.Close();
             }
         }

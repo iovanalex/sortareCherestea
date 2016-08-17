@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Globalization;
 using System.Windows;
 
 namespace WpfApplication1
@@ -126,8 +126,9 @@ namespace WpfApplication1
                                   "','" + this.bfPlanckMinContractThickness +
                                   "','" + this.bfPlanckMaxContractThickness +
                                   "','" + this.formName +
-                                  "','" + DateTime.Now +
+                                  "','" + DateTime.Now.ToString("MM/d/yyyy hh:mm:ss", CultureInfo.CreateSpecificCulture("en-US")) +
                                   "','" + this.bfProductName + "')";
+                Console.Out.WriteLine("Creez palet " + InsertPalletQueryString);
                 string ConString = ConfigurationManager.ConnectionStrings["WpfApplication1.Properties.Settings.SortareCheresteaConnectionString"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(ConString))
                 {

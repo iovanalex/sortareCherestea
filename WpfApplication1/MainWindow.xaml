@@ -237,6 +237,7 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="3" Margin="4,123,0,0" Stroke="Black" VerticalAlignment="Top" Width="786" Grid.Row="1"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="534" Margin="598,11,0,0" Stroke="Black" VerticalAlignment="Top" Width="2" Grid.RowSpan="2"/>
         <Label x:Name="pallet12Volume" Content="0qbm:" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="550,410,0,0" VerticalAlignment="Top" Width="42" Height="26" Grid.RowSpan="2"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="485,183,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
